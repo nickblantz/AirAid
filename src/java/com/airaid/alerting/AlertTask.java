@@ -36,16 +36,13 @@ public class AlertTask extends TimerTask {
         smtpProperties.put("mail.smtp.port", "587");
         smtpProperties.put("mail.smtp.auth", "true");
         smtpProperties.put("mail.smtp.starttls.enable", "true");
-        
         try {
             Session smtpSession = Session.getDefaultInstance(smtpProperties, null);
             MimeMessage textMessage = new MimeMessage(smtpSession);
             textMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientNumber + "@" + recipientCarrierDomain));
             textMessage.setContent(messageContent, "text/plain");
             Transport transport = smtpSession.getTransport("smtp");
-            
-            // Switch to airaid email
-            transport.connect("smtp.gmail.com", "Cloud.Software.Email@gmail.com", "csd@VT-1872");
+            transport.connect("smtp.gmail.com", "airaid.alerting@gmail.com", "csd@VT-1872");
             transport.close();
         } catch (AddressException ae) {
             System.out.println("Email Address Exception Occurred! See: " + ae.getMessage());
