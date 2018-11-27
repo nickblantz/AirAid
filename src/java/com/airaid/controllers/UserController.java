@@ -77,7 +77,7 @@ public class UserController implements Serializable {
     private String phoneNumber;
     private boolean isDark;
     private Map<String, Object> security_questions;
-
+        
     private User selected;
 
     /*
@@ -345,9 +345,7 @@ public class UserController implements Serializable {
     
     public List<User> getUsers()
     {
-        List<User> items = new ArrayList<>();
-        items = getUserFacade().findAll();
-        return items;
+        return getUserFacade().findAll();
     }
 
     /*

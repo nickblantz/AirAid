@@ -1,5 +1,6 @@
 /build/
 /dist/
 /nbproject/private/
+/src/
 /src/java/com/airaid/globals/Constants.java
 /web/WEB-INF/glassfish-web.xml
