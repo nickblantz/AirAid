@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UserTicketEditDlg" widgetVar="UserTicketEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUserTicketTitle}">
+            <h:form id="UserTicketEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{userTicketController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditUserTicketLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{userTicketController.selected.id}" title="#{bundle.EditUserTicketTitle_id}" required="true" requiredMessage="#{bundle.EditUserTicketRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditUserTicketLabel_flightDatetime}" for="flightDatetime" />
+                        <p:calendar id="flightDatetime" pattern="MM/dd/yyyy HH:mm:ss" value="#{userTicketController.selected.flightDatetime}" title="#{bundle.EditUserTicketTitle_flightDatetime}" required="true" requiredMessage="#{bundle.EditUserTicketRequiredMessage_flightDatetime}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditUserTicketLabel_flightId}" for="flightId" />
+                        <p:inputText id="flightId" value="#{userTicketController.selected.flightId}" title="#{bundle.EditUserTicketTitle_flightId}" required="true" requiredMessage="#{bundle.EditUserTicketRequiredMessage_flightId}"/>
+                        <p:outputLabel value="#{bundle.EditUserTicketLabel_sourceAirport}" for="sourceAirport" />
+                        <p:inputText id="sourceAirport" value="#{userTicketController.selected.sourceAirport}" title="#{bundle.EditUserTicketTitle_sourceAirport}" required="true" requiredMessage="#{bundle.EditUserTicketRequiredMessage_sourceAirport}"/>
+                        <p:outputLabel value="#{bundle.EditUserTicketLabel_destinationAirport}" for="destinationAirport" />
+                        <p:inputText id="destinationAirport" value="#{userTicketController.selected.destinationAirport}" title="#{bundle.EditUserTicketTitle_destinationAirport}" required="true" requiredMessage="#{bundle.EditUserTicketRequiredMessage_destinationAirport}"/>
+                        <p:outputLabel value="#{bundle.EditUserTicketLabel_price}" for="price" />
+                        <p:inputText id="price" value="#{userTicketController.selected.price}" title="#{bundle.EditUserTicketTitle_price}" required="true" requiredMessage="#{bundle.EditUserTicketRequiredMessage_price}"/>
+                        <p:outputLabel value="#{bundle.EditUserTicketLabel_userId}" for="userId" />
+                        <p:selectOneMenu id="userId" value="#{userTicketController.selected.userId}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{userController.itemsAvailableSelectOne}"
+                                           var="userIdItem"
+                                           itemValue="#{userIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{userTicketController.update}" value="#{bundle.Save}" update="display,:UserTicketListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UserTicketEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UserTicketEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
