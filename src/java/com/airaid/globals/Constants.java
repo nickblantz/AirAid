@@ -40,6 +40,7 @@ public final class Constants {
      */
     public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/Admin/DocRoot/";
 
+    
     /*
     In glassfish-web.xml, we specified an alternate document root (DocRoot) with the statement below
     to allow our application to read and write files external to (outside of) its deployed directory.
