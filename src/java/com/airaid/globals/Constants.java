@@ -38,7 +38,7 @@ public final class Constants {
     
     macOS (Unix or Linux): Specify the absolute directory path as shown below.
      */
-    public static final String PHOTOS_ABSOLUTE_PATH = "/home/cloudsd/Survey/SurveyUserPhotoStorage/";
+    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/Admin/DocRoot/";
 
     /*
     In glassfish-web.xml, we specified an alternate document root (DocRoot) with the statement below
@@ -87,8 +87,8 @@ public final class Constants {
         <> the app name starting with slash, e.g., /BevQ, if an external file is referenced or
         <> the URI of the Web Pages folder of the application if an internal file is referenced.
      */
-    public static final String PHOTOS_RELATIVE_PATH = "/SurveyUserPhotoStorage/";
-    public static final String DEFAULT_PHOTO_RELATIVE_PATH = "/SurveyUserPhotoStorage/defaultUserPhoto.png";
+    public static final String PHOTOS_RELATIVE_PATH = "/UserPhotoStorage/";
+    public static final String DEFAULT_PHOTO_RELATIVE_PATH = "/UserPhotoStorage/defaultUserPhoto.png";
 
     /* 
     ==================================================

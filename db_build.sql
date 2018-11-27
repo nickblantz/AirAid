@@ -27,7 +27,7 @@ CREATE TABLE User
     security_question_number INT NOT NULL,  /* Refers to the number of the selected security question */
     security_answer VARCHAR(128) NOT NULL,
     email VARCHAR(128) NOT NULL,    
-    ui_mode VARCHAR(16) NOT NULL,	
+    is_dark BOOLEAN NOT NULL,	
     PRIMARY KEY (id)
 );
 
