@@ -63,22 +63,18 @@ public class UserController implements Serializable {
     private String username;
     private String password;
     private String confirmPassword;
-
     private String firstName;
     private String middleName;
     private String lastName;
-
     private String address1;
     private String address2;
     private String city;
     private String state;
     private String zipcode;
-
     private int securityQuestionNumber;
     private String answerToSecurityQuestion;
-
     private String email;
-
+    private boolean isDark;
     private Map<String, Object> security_questions;
 
     private User selected;
@@ -222,6 +218,14 @@ public class UserController implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public boolean isIsDark() {
+        return isDark;
+    }
+
+    public void setIsDark(boolean isDark) {
+        this.isDark = isDark;
     }
 
     /*
