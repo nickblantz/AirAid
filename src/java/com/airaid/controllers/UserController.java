@@ -74,6 +74,7 @@ public class UserController implements Serializable {
     private int securityQuestionNumber;
     private String answerToSecurityQuestion;
     private String email;
+    private String phoneNumber;
     private boolean isDark;
     private Map<String, Object> security_questions;
 
@@ -115,6 +116,16 @@ public class UserController implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
+    
 
     public String getPassword() {
         return password;

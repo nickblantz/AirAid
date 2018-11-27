@@ -128,6 +128,7 @@ public class LoginManager implements Serializable {
             // Initialize the session map with user properties of interest
             initializeSessionMap(user);
 
+            verify(user);
             // Redirect to show the Profile page
             if (user.getUsername().equals("Administrator"))
             {
@@ -135,6 +136,16 @@ public class LoginManager implements Serializable {
             }
             return "/userAccount/Profile.xhtml?faces-redirect=true";
         }
+    }
+    
+    public String verify(User user)
+    {
+        
+        if (user.getUsername().equals("Administrator"))
+        {
+            return "/userAccount/AdminProfile.xhtml?faces-redirect=true";
+        }
+        return "/userAccount/Profile.xhtml?faces-redirect=true";
     }
 
     /*
