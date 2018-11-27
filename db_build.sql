@@ -26,28 +26,32 @@ CREATE TABLE User
     zipcode VARCHAR(10) NOT NULL,    /* e.g., 24060-1804 */
     security_question_number INT NOT NULL,  /* Refers to the number of the selected security question */
     security_answer VARCHAR(128) NOT NULL,
-    email VARCHAR(128) NOT NULL,      
+    email VARCHAR(128) NOT NULL,    
+    ui_mode VARCHAR(16) NOT NULL,	
     PRIMARY KEY (id)
 );
 
 /* The UserPhoto table contains attributes of interest of a user's photo. */
 CREATE TABLE UserPhoto
 (
-       id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
-       extension ENUM('jpeg', 'jpg', 'png', 'gif') NOT NULL,
-       user_id INT UNSIGNED,
-       FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    extension ENUM('jpeg', 'jpg', 'png', 'gif') NOT NULL,
+    user_id INT UNSIGNED,
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 
 /* The UserTicket table contains the user's questionnaire data. */
 CREATE TABLE UserTicket
 (
-       id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
-       flight_datetime DATETIME NOT NULL,                 
-	   flight_id VARCHAR(128) NOT NULL,
-	   source_airport VARCHAR(128) NOT NULL,
-	   destination_airport VARCHAR(128) NOT NULL,
-	   price FLOAT(4,2) NOT NULL,
-       user_id INT UNSIGNED,
-       FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    flight_datetime DATETIME NOT NULL,
+    expected_travel_time LONG NOT NULL,	   
+    flight_id VARCHAR(128) NOT NULL,
+    src_name VARCHAR(128) NOT NULL,
+	src_longitude DOUBLE NOT NULL,
+	src_latitude DOUBLE NOT NULL,
+    dest_name VARCHAR(128) NOT NULL,
+    price FLOAT(4,2) NOT NULL,
+    user_id INT UNSIGNED,
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
