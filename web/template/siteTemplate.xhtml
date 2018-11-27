@@ -7,7 +7,8 @@ Copyright © 2018 Osman Balci. All rights reserved.
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <!--
     **********************************************************************
     This template file defines the page layout design for the entire site.
@@ -41,14 +42,28 @@ Copyright © 2018 Osman Balci. All rights reserved.
         -->
         <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};
               url=#{request.contextPath}/template/sessionTimeout.xhtml"/>
-        
+
         <!-- 
         =============================
         *   CSS for the Entire UI   *
         =============================
         The siteStyles CSS file is linked for styling and formatting the entire UI. 
         -->
-        <h:outputStylesheet library="css" name="siteStyles.css" />
+        <c:choose>
+            <c:when test="#{userController.isLoggedIn() == true}">
+                <c:choose>
+                    <c:when test="#{userController.selected.isDark == true}">
+                        <h:outputStylesheet library="css" name="siteStylesDark.css" />
+                    </c:when> 
+                    <c:otherwise>
+                        <h:outputStylesheet library="css" name="siteStyles.css" />
+                    </c:otherwise>
+                </c:choose>
+            </c:when> 
+            <c:otherwise>
+                <h:outputStylesheet library="css" name="siteStyles.css" />
+            </c:otherwise>
+        </c:choose>
 
         <!-- 
         ===============================
@@ -69,10 +84,10 @@ Copyright © 2018 Osman Balci. All rights reserved.
         https://fontawesome.com/how-to-use/on-the-web/setup/getting-started?using=svg-with-js 
         -->
         <script defer='defer' src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
-               integrity="sha384-kW+oWsYx3YpxvjtZjFXqazFpA7UP/MbiY4jvs+RWZo2+N94PFZ36T6TFkc9O3qoB" 
-               crossorigin="anonymous">
+                integrity="sha384-kW+oWsYx3YpxvjtZjFXqazFpA7UP/MbiY4jvs+RWZo2+N94PFZ36T6TFkc9O3qoB" 
+                crossorigin="anonymous">
         </script>
-        
+
         <!-- 
         =====================
         *   Favorite Icon   *
