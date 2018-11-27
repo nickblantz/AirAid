@@ -95,11 +95,11 @@ Copyright © 2018 Osman Balci. All rights reserved.
                                 <c:choose>
                                     <c:when test="#{userController.isAdministrator() == true}"> 
 
-                                        <h:link outcome="/userSurvey/SurveyChart" class="standardText" >
+                                        <h:link outcome="/userTicket/Create" class="standardText" >
                                             <i class="fas fa-file-alt"></i>&nbsp;Generate Report
                                         </h:link>
 
-                                        <h:link outcome="/userSurvey/SurveysList" class="standardText" >
+                                        <h:link outcome="/userTicket/Create" class="standardText" >
                                             <i class="fas fa-list"></i>&nbsp;List All Surveys
                                         </h:link>
 
@@ -127,11 +127,11 @@ Copyright © 2018 Osman Balci. All rights reserved.
                                         <c:choose>
                                             <c:when test="#{userController.isLoggedIn() == true}"> 
 
-                                                <h:link outcome="/userSurvey/TakeSurvey" class="standardText" >
+                                                <h:link outcome="/userTicket/Create" class="standardText" >
                                                     <i class="fas fa-pencil-alt"></i>&nbsp;Take Survey
                                                 </h:link>
 
-                                                <h:link outcome="/userSurvey/SurveysTaken" class="standardText" >
+                                                <h:link outcome="/userTicket/Create" class="standardText" >
                                                     <i class="fas fa-check"></i>&nbsp;Surveys Taken
                                                 </h:link>
 

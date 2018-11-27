@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Osman Balci on 2018.06.10
+Copyright © 2018 Osman Balci. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="List of All Users"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <div align="center" style="width:95%">
+
+                <h1>List of All Surveys Taken</h1>
+
+                <h:form id="UserSurveyListForm">
+
+                    <p:panel header="Surveys List">
+
+                        <p:dataTable id="datalist" value="#{userController.getUsers()}" var="item"
+                                     selectionMode="single" selection="#{userController.selected}"
+                                     paginator="true"
+                                     rowKey="#{item.id}"
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,20,30,40,50"
+                                     class="dataTable">
+
+                            <p:ajax event="rowSelect"   update="viewButton"/>
+                            <p:ajax event="rowUnselect" update="viewButton"/>
+
+                            <!--
+                            ********************************
+                            *    DB Primary Key column     *
+                            ********************************
+                            -->
+                            <p:column headerText="User Photo" style="text-align:center; width:50px;">
+                                <p:graphicImage cache="false" class="smallProfilePhoto" value="#{userController.getUserPhoto(item)}"/>
+                            </p:column>
+
+                            <!--
+                            ********************************
+                            *      Date Taken column       *
+                            ********************************
+                            -->
+                            <p:column headerText="First Name" style="text-align:center; width:100px;">
+                                <h:outputText value="#{item.firstName}">
+                                </h:outputText>
+                            </p:column>
+
+                            <!--
+                            ********************************
+                            *       User Photo column      *
+                            ********************************
+                            -->
+                            <p:column headerText="Last Name" style="text-align:center; width:80px;" sortBy="#{item.lastName}">
+                                <!-- 
+                                Display the user's photo in a small circle. The cache="false" option
+                                enables immediate display of a newly uploaded photo without using cache.
+                                -->
+                                <h:outputText value="#{item.lastName}">
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Username" style="text-align:center; width:80px;" sortBy="#{item.username}">
+                                <!-- 
+                                Display the user's photo in a small circle. The cache="false" option
+                                enables immediate display of a newly uploaded photo without using cache.
+                                -->
+                                <h:outputText value="#{item.username}">
+                                </h:outputText>
+                            </p:column>
+
+                            <!--
+                            ********************************
+                            *           Footer             *
+                            ********************************
+                            -->
+                            <f:facet name="footer">
+                                <!-- 
+                                ===========
+                                VIEW Button
+                                ===========
+                                -->
+                                <p:commandButton id="viewButton" icon="fas fa-eye" value="View Details" 
+                                                 update=":UserViewDlg" oncomplete="PF('UserViewDialog').show()" 
+                                                 disabled="#{empty userController.selected}"/>
+                                &nbsp;
+                                
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+
+            <!-- 
+            ==================================================================
+            Dialog for Security Question and Answer for Survey Deletion
+            ==================================================================
+            -->
+
+            <ui:include src="/user/View.xhtml"/>
+        </ui:define>
+        
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>
