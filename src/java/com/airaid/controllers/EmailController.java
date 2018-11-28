@@ -4,9 +4,11 @@
  */
 package com.airaid.controllers;
 
+import com.airaid.EntityBeans.User;
 import com.airaid.globals.Methods;
 import javax.inject.Named;
 import java.util.Properties;
+import java.util.Random;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.mail.Message;
@@ -16,6 +18,8 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import com.airaid.FacadeBeans.UserFacade;
+import javax.ejb.EJB;
 
 /* 
  The @Named class annotation designates the bean object created by this class 
@@ -53,7 +57,18 @@ public class EmailController {
     private String emailCc;             // Contains comma separated multiple email addresses with no spaces
     private String emailSubject;        // Subject line of the email message
     private String emailBody;           // Email content created in HTML format with PrimeFaces Editor
+    private String key;
+    @EJB
+    private UserFacade userFacade;
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+    
     Properties emailServerProperties;   // java.util.Properties
     Session emailSession;               // javax.mail.Session
     MimeMessage htmlEmailMessage;       // javax.mail.internet.MimeMessage
@@ -90,6 +105,40 @@ public class EmailController {
         this.editorController = editorController;
     }
 
+    public UserFacade getUserFacade() {
+        return userFacade;
+    }
+
+    public void setUserFacade(UserFacade userFacade) {
+        this.userFacade = userFacade;
+    }
+
+    public Properties getEmailServerProperties() {
+        return emailServerProperties;
+    }
+
+    public void setEmailServerProperties(Properties emailServerProperties) {
+        this.emailServerProperties = emailServerProperties;
+    }
+
+    public Session getEmailSession() {
+        return emailSession;
+    }
+
+    public void setEmailSession(Session emailSession) {
+        this.emailSession = emailSession;
+    }
+
+    public MimeMessage getHtmlEmailMessage() {
+        return htmlEmailMessage;
+    }
+
+    public void setHtmlEmailMessage(MimeMessage htmlEmailMessage) {
+        this.htmlEmailMessage = htmlEmailMessage;
+    }
+    
+    
+
     public String getEmailTo() {
         return emailTo;
     }
@@ -122,21 +171,31 @@ public class EmailController {
         this.emailBody = emailBody;
     }
 
+    
+    public String getRandomString()
+    {
+        String listChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        Random rand = new Random();
+        StringBuilder str = new StringBuilder();
+        while(str.length() < 5)
+        {
+            str.append(listChars.charAt(rand.nextInt(listChars.length())));
+        }
+        return str.toString();
+    }
     /*
     ======================================================
     Create Email Sesion and Transport Email in HTML Format
     ======================================================
      */
-    public void sendEmail() throws AddressException, MessagingException {
+    public void sendEmail(String str, String pin) throws AddressException, MessagingException {
 
         // Obtain the email message content from the editorController object
-        emailBody = editorController.getEmailMessage();
-
-        // Email message content cannot be empty
-        if (emailBody.isEmpty()) {
-            Methods.showMessage("Error", "Please enter your email message!", "");
-            return;
-        }
+        System.out.println(str);
+        UserFacade fa = this.getUserFacade();
+        User u = fa.findByUsername(str);
+        emailTo = u.getEmail();
+        emailBody = "The Verification Pin is: " + pin;
 
         // Set Email Server Properties
         emailServerProperties = System.getProperties();

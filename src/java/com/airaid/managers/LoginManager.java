@@ -10,6 +10,7 @@ import com.airaid.FacadeBeans.UserFacade;
 import com.airaid.globals.Methods;
 
 import java.io.Serializable;
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -26,6 +27,9 @@ public class LoginManager implements Serializable {
      */
     private String username;
     private String password;
+    private boolean admin;
+    private String pin;
+    private String pinAnswer;
 
     /*
     The instance variable 'userFacade' is annotated with the @EJB annotation.
@@ -59,6 +63,24 @@ public class LoginManager implements Serializable {
     public String getPassword() {
         return password;
     }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+    
+    
 
     public void setPassword(String password) {
         this.password = password;
@@ -127,25 +149,49 @@ public class LoginManager implements Serializable {
 
             // Initialize the session map with user properties of interest
             initializeSessionMap(user);
-
-            verify(user);
             // Redirect to show the Profile page
             if (user.getUsername().equals("Administrator"))
+            {
+                admin = true;
+            }
+            else
+            {
+                admin = false;
+            }
+            return "/userAccount/VerifyEmail.xhtml?faces-redirect=true";
+        }
+    }
+    
+    public String getRandomString()
+    {
+        String listChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        Random rand = new Random();
+        StringBuilder str = new StringBuilder();
+        while(str.length() < 5)
+        {
+            str.append(listChars.charAt(rand.nextInt(listChars.length())));
+        }
+        pinAnswer = str.toString();
+        return str.toString();
+    }
+    
+    public String verify()
+    {
+        System.out.println(pin + "ass1");
+        System.out.println(pinAnswer + "ass2");
+        if (pin.equals(pinAnswer))
+        {
+            if (admin)
             {
                 return "/userAccount/AdminProfile.xhtml?faces-redirect=true";
             }
             return "/userAccount/Profile.xhtml?faces-redirect=true";
         }
-    }
-    
-    public String verify(User user)
-    {
-        
-        if (user.getUsername().equals("Administrator"))
+        else
         {
-            return "/userAccount/AdminProfile.xhtml?faces-redirect=true";
+            Methods.showMessage("Information", "Pin is Incorrect", "Incorrect Pin Input");
+            return "/userAccount/VerifyEmail";
         }
-        return "/userAccount/Profile.xhtml?faces-redirect=true";
     }
 
     /*

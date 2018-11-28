@@ -125,8 +125,6 @@ public class UserController implements Serializable {
         this.phoneNumber = phoneNumber;
     }
     
-    
-
     public String getPassword() {
         return password;
     }
@@ -448,6 +446,7 @@ public class UserController implements Serializable {
             newUser.setSecurityAnswer(answerToSecurityQuestion);
             newUser.setEmail(email);
             newUser.setUsername(username);
+            newUser.setPhoneNumber(phoneNumber);
 
             //-------------------------------------------------------------------------------------
             // Convert the user-entered String password to a String containing the following parts

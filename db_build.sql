@@ -19,7 +19,7 @@ CREATE TABLE User
     first_name VARCHAR(32) NOT NULL,
     middle_name VARCHAR(32),
     last_name VARCHAR(32) NOT NULL,
-	phone_number VARCHAR(11) NOT NULL, 
+    phone_number VARCHAR(11) NOT NULL, 
     address1 VARCHAR(128) NOT NULL,
     address2 VARCHAR(128),
     city VARCHAR(64) NOT NULL,

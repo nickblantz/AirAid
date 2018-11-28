@@ -57,19 +57,9 @@ public class UserPhoto implements Serializable {
         this.id = id;
     }
 
-    public UserPhoto(Integer id, String extension, User uId) {
+    public UserPhoto(Integer id, String extension) {
         this.id = id;
         this.extension = extension;
-        this.userId = uId;
-    }
-    
-    public String getPhotoFilename() {
-        return getUserId() + "." + getExtension();
-    }
-    
-    public UserPhoto(String fileExtension, User id) {
-        this.extension = fileExtension;
-        userId = id;
     }
 
     public Integer getId() {
@@ -78,6 +68,10 @@ public class UserPhoto implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public String getPhotoFilename() {
+        return getUserId() + "." + getExtension();
     }
 
     public String getExtension() {

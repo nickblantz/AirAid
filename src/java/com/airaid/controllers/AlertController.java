@@ -15,7 +15,7 @@ import javax.inject.Named;
  *
  * @author Nick Blantz
  */
-@Named(value = "textMessageController")
+@Named(value = "alertController")
 @RequestScoped
 public class AlertController {
     private String recipientNumber;

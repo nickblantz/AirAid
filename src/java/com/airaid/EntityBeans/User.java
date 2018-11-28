@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName")
     , @NamedQuery(name = "User.findByMiddleName", query = "SELECT u FROM User u WHERE u.middleName = :middleName")
     , @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName")
+    , @NamedQuery(name = "User.findByPhoneNumber", query = "SELECT u FROM User u WHERE u.phoneNumber = :phoneNumber")
     , @NamedQuery(name = "User.findByAddress1", query = "SELECT u FROM User u WHERE u.address1 = :address1")
     , @NamedQuery(name = "User.findByAddress2", query = "SELECT u FROM User u WHERE u.address2 = :address2")
     , @NamedQuery(name = "User.findByCity", query = "SELECT u FROM User u WHERE u.city = :city")
@@ -43,13 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByZipcode", query = "SELECT u FROM User u WHERE u.zipcode = :zipcode")
     , @NamedQuery(name = "User.findBySecurityQuestionNumber", query = "SELECT u FROM User u WHERE u.securityQuestionNumber = :securityQuestionNumber")
     , @NamedQuery(name = "User.findBySecurityAnswer", query = "SELECT u FROM User u WHERE u.securityAnswer = :securityAnswer")
-    , @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")})
+    , @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
+    , @NamedQuery(name = "User.findByIsDark", query = "SELECT u FROM User u WHERE u.isDark = :isDark")})
 public class User implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "is_dark")
-    private boolean isDark;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -80,6 +77,11 @@ public class User implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "last_name")
     private String lastName;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 11)
+    @Column(name = "phone_number")
+    private String phoneNumber;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 128)
@@ -118,6 +120,10 @@ public class User implements Serializable {
     @Size(min = 1, max = 128)
     @Column(name = "email")
     private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "is_dark")
+    private boolean isDark;
     @OneToMany(mappedBy = "userId")
     private Collection<UserPhoto> userPhotoCollection;
     @OneToMany(mappedBy = "userId")
@@ -130,12 +136,13 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String username, String password, String firstName, String lastName, String address1, String city, String state, String zipcode, int securityQuestionNumber, String securityAnswer, String email) {
+    public User(Integer id, String username, String password, String firstName, String lastName, String phoneNumber, String address1, String city, String state, String zipcode, int securityQuestionNumber, String securityAnswer, String email, boolean isDark) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.address1 = address1;
         this.city = city;
         this.state = state;
@@ -143,6 +150,7 @@ public class User implements Serializable {
         this.securityQuestionNumber = securityQuestionNumber;
         this.securityAnswer = securityAnswer;
         this.email = email;
+        this.isDark = isDark;
     }
 
     public Integer getId() {
@@ -191,6 +199,14 @@ public class User implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress1() {
@@ -257,6 +273,14 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public boolean getIsDark() {
+        return isDark;
+    }
+
+    public void setIsDark(boolean isDark) {
+        this.isDark = isDark;
+    }
+
     @XmlTransient
     public Collection<UserPhoto> getUserPhotoCollection() {
         return userPhotoCollection;
@@ -298,14 +322,6 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.airaid.EntityBeans.User[ id=" + id + " ]";
-    }
-
-    public boolean getIsDark() {
-        return isDark;
-    }
-
-    public void setIsDark(boolean isDark) {
-        this.isDark = isDark;
     }
     
 }

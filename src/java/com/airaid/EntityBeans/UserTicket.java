@@ -1,6 +1,6 @@
 /*
- * Created by Nicholas Blantz on 2018.11.27  * 
- * Copyright © 2018 Nicholas Blantz. All rights reserved. * 
+ * Created by Viet Doan on 2018.11.27  * 
+ * Copyright © 2018 Viet Doan. All rights reserved. * 
  */
 package com.airaid.EntityBeans;
 
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Admin
+ * @author VDoan
  */
 @Entity
 @Table(name = "UserTicket")
