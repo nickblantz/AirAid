@@ -31,6 +31,13 @@ html, body {
     height: 100%;                   /* Set page height vertically 100% */
 }
 
+#imageSlider {
+    max-height: 500px;
+    max-width: 500px;
+    width: 500px;
+    height: 500px;
+}
+
 /* Style standard HTML tags body and paragraph p */
 body, p {
     font-family: "Times New Roman", Times, Serif;

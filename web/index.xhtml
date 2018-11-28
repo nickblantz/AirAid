@@ -48,26 +48,12 @@ Copyright © 2018 Osman Balci. All rights reserved.
                 <h:outputScript name="js/js-image-slider.js" />
             =================================================================================
             -->
-
-            <div id="sliderFrame">
-                <div id="slider">
-                    <!--
-                    Image captions are provided by the "alt" values and are displayed on gray background.
-                    However, we provide no captions here.
-                    -->
-                    <img src="#{resource['images:imageSliderPhotos/photo1.png']}"  alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo2.png']}"  alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo3.png']}"  alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo4.png']}"  alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo5.png']}"  alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo6.png']}"  alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo7.png']}"  alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo8.png']}"  alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo9.png']}"  alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo10.png']}" alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo11.png']}" alt=""  />
-                    <img src="#{resource['images:imageSliderPhotos/photo12.png']}" alt=""  />
-                </div>
+            <div align="center">
+                <p:imageSwitch speed="5000" effect="fade" style="text-align:center">
+                    <ui:repeat value="#{sliderController.getSliderImages()}" var="image">
+                        <p:graphicImage id="imageSlider" value="/resources/images/imageSliderPhotos/#{image}" />
+                    </ui:repeat>
+                </p:imageSwitch>                
             </div>
             <br /><br /><br />
             <div align="center">
