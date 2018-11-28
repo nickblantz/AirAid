@@ -65,7 +65,7 @@ Copyright © 2018 Osman Balci. All rights reserved.
                 -->
                 <c:if test="#{userController.isLoggedIn() == true}">
                     <p:button outcome="/userTicket/Create" 
-                              value="Take Survey" icon="fas fa-pencil-alt"  />
+                              value=" Find Tickets" icon="fas fa-ticket-alt"  />
                 </c:if>
 
                 <!-- 
@@ -74,7 +74,7 @@ Copyright © 2018 Osman Balci. All rights reserved.
                 ===========================================
                 -->
                 <c:if test="#{userController.isLoggedIn() == false}">
-                    <p:button outcome="/SignIn" value="Take Survey" icon="fas fa-pencil-alt"  />
+                    <p:button outcome="/SignIn" value=" Find Ticket" icon="fas fa-ticket-alt"  />
                 </c:if>
             </div>
 
