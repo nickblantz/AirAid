@@ -27,7 +27,8 @@ CREATE TABLE User
     zipcode VARCHAR(10) NOT NULL,    /* e.g., 24060-1804 */
     security_question_number INT NOT NULL,  /* Refers to the number of the selected security question */
     security_answer VARCHAR(128) NOT NULL,
-    email VARCHAR(128) NOT NULL,    
+    email VARCHAR(128) NOT NULL,
+    is_verified BOOLEAN NOT NULL,
     is_dark BOOLEAN NOT NULL,	
     PRIMARY KEY (id)
 );
@@ -49,8 +50,8 @@ CREATE TABLE UserTicket
     expected_travel_time LONG NOT NULL,	   
     flight_id VARCHAR(128) NOT NULL,
     src_name VARCHAR(128) NOT NULL,
-	src_longitude DOUBLE NOT NULL,
-	src_latitude DOUBLE NOT NULL,
+    src_longitude DOUBLE NOT NULL,
+    src_latitude DOUBLE NOT NULL,
     dest_name VARCHAR(128) NOT NULL,
     price FLOAT(4,2) NOT NULL,
     user_id INT UNSIGNED,
