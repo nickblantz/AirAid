@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Nicholas Blantz on 2018.11.27 
-Copyright © 2018 Nicholas Blantz. All rights reserved.
+Created by Osman Balci on 2018.06.18
+Copyright © 2018 Osman Balci. All rights reserved.
 -->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <!--
+        *******************************
+        Dialog pop-up window for SEARCH
+        *******************************
+        -->
+        <!-- Clicking the Search button displays this file in a dialog window on top of the Search button's page. -->
+        <p:dialog position="center center" id="CompanySearchDlg" widgetVar="FlightSearchDialog" modal="true" 
+                  resizable="false" appendTo="@(body)" header="Search Flights" >
+            
+            <h:form id="CompanySearchForm">
+                <p:panel>                
+                    
+                    <h:panelGrid columns="4">
+                        
+                        <h:outputLabel value="Search: "/>
+                        
+                        <p:inputText id="flightSource" value="#{flightController.flightSource}" 
+                                     required="true" requiredMessage="Please enter a source airport!"
+                                     placeholder="Enter source airport" >
+                            <f:validateLength minimum="1" />
+                        </p:inputText>
+                        
+                        <p:inputText id="flightDestination" value="#{flightController.flightDestination}" 
+                                     required="true" requiredMessage="Please enter a destination airport!"
+                                     placeholder="Enter destination airport" >
+                            <f:validateLength minimum="1" />
+                        </p:inputText>
+                        
+                        <p:calendar id="flightDate" pattern="MM/dd/yyyy" class="inputTextField" mask="true"
+                                    value="#{flightController.flightDate}"
+                                    required ="true" requiredMessage="Please enter a flight date!" />
+                        
+                    </h:panelGrid>
+
+                    <h:panelGroup>
+                        <br /><br />
+                        <div align="center">
+                            <!-- SUBMIT button -->
+                            <p:commandButton value="Submit" icon="fas fa-arrow-up" ajax="false" 
+                                              action="#{flightController.search()}" /> 
+                            &nbsp;
+                            <!-- CANCEL button -->
+                            <p:commandButton value="#{bundle.Cancel}" onclick="PF('FlightSearchDialog').hide()"    
+                                              icon="fas fa-ban" />
+                        </div>
+                    </h:panelGroup>
+
+                </p:panel>
+            </h:form>
+
+        </p:dialog>
+    </ui:composition>
 </html>
