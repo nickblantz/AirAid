@@ -177,8 +177,6 @@ public class LoginManager implements Serializable {
     
     public String verify()
     {
-        System.out.println(pin + "ass1");
-        System.out.println(pinAnswer + "ass2");
         if (pin.equals(pinAnswer))
         {
             if (admin)
@@ -189,7 +187,7 @@ public class LoginManager implements Serializable {
         }
         else
         {
-            Methods.showMessage("Information", "Pin is Incorrect", "Incorrect Pin Input");
+            Methods.showMessage("Error", "Pin is Incorrect", "Incorrect Pin Input");
             return "/userAccount/VerifyEmail";
         }
     }

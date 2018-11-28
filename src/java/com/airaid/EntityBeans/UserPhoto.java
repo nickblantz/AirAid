@@ -61,6 +61,11 @@ public class UserPhoto implements Serializable {
         this.id = id;
         this.extension = extension;
     }
+    
+    public UserPhoto(String fileExtension, User id) {
+        this.extension = fileExtension;
+        userId = id;
+    }
 
     public Integer getId() {
         return id;
