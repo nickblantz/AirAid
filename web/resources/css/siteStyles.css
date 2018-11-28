@@ -306,14 +306,14 @@ Used in Profile
 /* Style p:panelGrid Column 1 */
 .panelGridColumn1 {
     text-align: right;
-    background-color: bisque; 
+    background-color: lightblue; 
     white-space: nowrap;        /* Disallow line break */
 }
 
 /* Style p:panelGrid Column 2 */
 .panelGridColumn2 {
     text-align: left;
-    background-color: blanchedalmond; 
+    background-color: lightblue; 
     white-space: nowrap;        /* Disallow line break */
 }
 

@@ -77,7 +77,7 @@ public class UserController implements Serializable {
     private String phoneNumber;
     private boolean isDark;
     private Map<String, Object> security_questions;
-        
+
     private User selected;
 
     /*
@@ -228,7 +228,7 @@ public class UserController implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public boolean isIsDark() {
         return isDark;
     }
@@ -331,18 +331,15 @@ public class UserController implements Serializable {
          */
         return Methods.sessionMap().get("username") != null;
     }
-    
-    public boolean isAdministrator()
-    {
-        if (isLoggedIn())
-        {
+
+    public boolean isAdministrator() {
+        if (isLoggedIn()) {
             return Methods.sessionMap().get("username").equals("Administrator");
         }
         return false;
     }
-    
-    public List<User> getUsers()
-    {
+
+    public List<User> getUsers() {
         return getUserFacade().findAll();
     }
 
@@ -381,7 +378,7 @@ public class UserController implements Serializable {
     **********************************************************
      */
     public String createAccount() {
-        
+
         /*
         ----------------------------------------------------------------
         Password and Confirm Password are validated under 3 tests:
@@ -633,6 +630,24 @@ public class UserController implements Serializable {
         }
     }
 
+    public String switchCSS() {
+        System.out.println(";lasdkfj;asldkfja;lsdkfj;alsdkfja;sldkfja;sdlkfj;alsdkfj;alskdjfas;ldkfjas;ldkfj");
+        Methods.preserveMessages();
+        User user = (User) Methods.sessionMap().get("user");
+        try {
+            if (selected.getIsDark()) {
+                user.setIsDark(false);
+            } else {
+                user.setIsDark(true);
+            }
+            getUserFacade().edit(user);
+        } catch (EJBException ex) {
+            Methods.showMessage("Fatal Error", "Something went wrong while updating user's profile!",
+                    "See: " + ex.getMessage());
+        }
+        return "/userAccount/Profile.xhtml?faces-redirect=true";
+    }
+
     /*
     *********************************************************
     Return Signed-In User's Thumbnail Photo Relative Filepath
@@ -662,9 +677,8 @@ public class UserController implements Serializable {
 
         return Constants.PHOTOS_RELATIVE_PATH + thumbnailFileName;
     }
-    
-    public String getUserPhoto(User uId)
-    {
+
+    public String getUserPhoto(User uId) {
         List<UserPhoto> photoList = getUserPhotoFacade().findPhotosByUser(uId);
 
         if (photoList.isEmpty()) {
