@@ -8,7 +8,8 @@ Copyright © 2018 Osman Balci. All rights reserved.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->
 
@@ -47,7 +48,7 @@ Copyright © 2018 Osman Balci. All rights reserved.
                     |         SIGN IN Button       |
                     ================================
                     -->
-                    <p:commandButton id="login" value="Sign In" action="#{loginManager.loginUser()}" 
+                    <p:commandButton id="login" value="Sign In" action="#{loginManager.redirectVerify(loginManager.username)}" 
                                      ajax="false" icon="fas fa-sign-in-alt" >
                         <f:actionListener binding="#{emailController.sendEmail(loginManager.username, loginManager.getRandomString())}"/>
                     </p:commandButton>

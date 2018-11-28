@@ -444,6 +444,8 @@ public class UserController implements Serializable {
             newUser.setEmail(email);
             newUser.setUsername(username);
             newUser.setPhoneNumber(phoneNumber);
+            newUser.setIsVerified(false);
+            newUser.setIsDark(false);
 
             //-------------------------------------------------------------------------------------
             // Convert the user-entered String password to a String containing the following parts

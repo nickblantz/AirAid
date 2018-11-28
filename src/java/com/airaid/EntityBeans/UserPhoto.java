@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.airaid.globals.Constants;
+
 /**
  *
  * @author VDoan
@@ -28,8 +29,8 @@ import com.airaid.globals.Constants;
 @Table(name = "UserPhoto")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UserPhoto.findPhotosByUserDatabasePrimaryKey", query = "SELECT p FROM UserPhoto p WHERE p.userId.id = :primaryKey")
-    , @NamedQuery(name = "UserPhoto.findAll", query = "SELECT u FROM UserPhoto u")
+    @NamedQuery(name = "UserPhoto.findAll", query = "SELECT u FROM UserPhoto u")
+    , @NamedQuery(name = "UserPhoto.findPhotosByUserDatabasePrimaryKey", query = "SELECT p FROM UserPhoto p WHERE p.userId.id = :primaryKey")
     , @NamedQuery(name = "UserPhoto.findById", query = "SELECT u FROM UserPhoto u WHERE u.id = :id")
     , @NamedQuery(name = "UserPhoto.findByExtension", query = "SELECT u FROM UserPhoto u WHERE u.extension = :extension")
     , @NamedQuery(name = "UserPhoto.findPhotosByUserKey", query = "SELECT p FROM UserPhoto p WHERE p.userId = :primaryKey")})
@@ -56,6 +57,10 @@ public class UserPhoto implements Serializable {
     public UserPhoto(Integer id) {
         this.id = id;
     }
+    
+    public String getPhotoFilename() {
+        return getUserId() + "." + getExtension();
+    }
 
     public UserPhoto(Integer id, String extension) {
         this.id = id;
@@ -73,10 +78,6 @@ public class UserPhoto implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-    
-    public String getPhotoFilename() {
-        return getUserId() + "." + getExtension();
     }
 
     public String getExtension() {

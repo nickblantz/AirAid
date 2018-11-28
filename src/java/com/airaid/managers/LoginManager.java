@@ -146,19 +146,16 @@ public class LoginManager implements Serializable {
                         "See: " + ex.getMessage());
                 return "";
             }
-
+            user.setIsVerified(true);
             // Initialize the session map with user properties of interest
             initializeSessionMap(user);
             // Redirect to show the Profile page
             if (user.getUsername().equals("Administrator"))
             {
-                admin = true;
+                return "/userAccount/AdminProfile.xhtml?faces-redirect=true";
             }
-            else
-            {
-                admin = false;
-            }
-            return "/userAccount/VerifyEmail.xhtml?faces-redirect=true";
+            this.getUserFacade().edit(user);
+            return "/userAccount/Profile.xhtml?faces-redirect=true";
         }
     }
     
@@ -175,20 +172,28 @@ public class LoginManager implements Serializable {
         return str.toString();
     }
     
-    public String verify()
+    public String redirectVerify(String str)
+    {
+        User user = this.getUserFacade().findByUsername(str);
+        if (user.getIsVerified())
+        {
+            return this.loginUser();
+        }
+        return "/userAccount/VerifyEmail.xhtml?faces-redirect=true";
+    }
+    
+    public String verify(String str)
     {
         if (pin.equals(pinAnswer))
         {
-            if (admin)
-            {
-                return "/userAccount/AdminProfile.xhtml?faces-redirect=true";
-            }
-            return "/userAccount/Profile.xhtml?faces-redirect=true";
+            User user = this.getUserFacade().findByUsername(str);
+            user.setIsVerified(true);
+            return this.loginUser();
         }
         else
         {
             Methods.showMessage("Error", "Pin is Incorrect", "Incorrect Pin Input");
-            return "/userAccount/VerifyEmail";
+            return "/userAccount/VerifyEmail.xhtml?faces-redirect=true";
         }
     }
 

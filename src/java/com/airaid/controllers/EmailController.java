@@ -191,9 +191,12 @@ public class EmailController {
     public void sendEmail(String str, String pin) throws AddressException, MessagingException {
 
         // Obtain the email message content from the editorController object
-        System.out.println(str);
         UserFacade fa = this.getUserFacade();
         User u = fa.findByUsername(str);
+        if (u.getIsVerified())
+        {
+            return;
+        }
         emailTo = u.getEmail();
         emailBody = "The Verification Pin is: " + pin;
 

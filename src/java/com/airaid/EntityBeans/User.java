@@ -45,6 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findBySecurityQuestionNumber", query = "SELECT u FROM User u WHERE u.securityQuestionNumber = :securityQuestionNumber")
     , @NamedQuery(name = "User.findBySecurityAnswer", query = "SELECT u FROM User u WHERE u.securityAnswer = :securityAnswer")
     , @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
+    , @NamedQuery(name = "User.findByIsVerified", query = "SELECT u FROM User u WHERE u.isVerified = :isVerified")
     , @NamedQuery(name = "User.findByIsDark", query = "SELECT u FROM User u WHERE u.isDark = :isDark")})
 public class User implements Serializable {
 
@@ -122,6 +123,10 @@ public class User implements Serializable {
     private String email;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "is_verified")
+    private boolean isVerified;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "is_dark")
     private boolean isDark;
     @OneToMany(mappedBy = "userId")
@@ -136,7 +141,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String username, String password, String firstName, String lastName, String phoneNumber, String address1, String city, String state, String zipcode, int securityQuestionNumber, String securityAnswer, String email, boolean isDark) {
+    public User(Integer id, String username, String password, String firstName, String lastName, String phoneNumber, String address1, String city, String state, String zipcode, int securityQuestionNumber, String securityAnswer, String email, boolean isVerified, boolean isDark) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -150,6 +155,7 @@ public class User implements Serializable {
         this.securityQuestionNumber = securityQuestionNumber;
         this.securityAnswer = securityAnswer;
         this.email = email;
+        this.isVerified = isVerified;
         this.isDark = isDark;
     }
 
@@ -271,6 +277,14 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean getIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(boolean isVerified) {
+        this.isVerified = isVerified;
     }
 
     public boolean getIsDark() {
