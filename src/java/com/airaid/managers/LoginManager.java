@@ -175,6 +175,10 @@ public class LoginManager implements Serializable {
     public String redirectVerify(String str)
     {
         User user = this.getUserFacade().findByUsername(str);
+        if (user == null)
+        {
+            return this.loginUser();
+        }
         if (user.getIsVerified())
         {
             return "/userAccount/VerifyText.xhtml?faces-redirect=true";
@@ -192,7 +196,8 @@ public class LoginManager implements Serializable {
         }
         else
         {
-            Methods.showMessage("Error", "Pin is Incorrect", "Incorrect Pin Input");
+            Methods.preserveMessages();
+            Methods.showMessage("Error", "Incorrect Verification Pin!", "");
             return "/userAccount/VerifyEmail.xhtml?faces-redirect=true";
         }
     }

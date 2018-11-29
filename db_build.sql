@@ -8,7 +8,7 @@
 Tables to be dropped must be listed in a logical order based on dependency.
 UserQuestionnaire and UserPhoto depend on User. Therefore, they must be dropped before User.
 */
-DROP TABLE IF EXISTS UserPhoto, User, UserTicket;
+DROP TABLE IF EXISTS UserPhoto, UserTicket, User;
 
 /* The User table contains attributes of interest of a User. */
 CREATE TABLE User
@@ -43,18 +43,37 @@ CREATE TABLE UserPhoto
     FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 
-/* The UserTicket table contains the user's questionnaire data. */
+/* The UserTicket table contains the ticket/flight info */
+/* I don't think we need a flight id since they are made up */
+/* A user ID of null means it was created here or by a admin and anyone should be able to view it */
 CREATE TABLE UserTicket
 (
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    flight_datetime DATETIME NOT NULL,
-    expected_travel_time LONG NOT NULL,	   
-    flight_id VARCHAR(128) NOT NULL,
+    departure_time DATETIME NOT NULL,
+    arrival_time DATETIME NOT NULL,
     src_name VARCHAR(128) NOT NULL,
+    dest_name VARCHAR(128) NOT NULL,
     src_longitude DOUBLE NOT NULL,
     src_latitude DOUBLE NOT NULL,
-    dest_name VARCHAR(128) NOT NULL,
-    price FLOAT(4,2) NOT NULL,
+    src_street VARCHAR(128) NOT NULL,
+    price FLOAT(5,2) NOT NULL,
     user_id INT UNSIGNED,
     FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
+
+/* info from: https://en.wikipedia.org/wiki/List_of_the_busiest_airports_in_the_United_States and https://www.airnav.com/airports/ */
+/*
+                                        AIRPORT INFO
+        NAME                                                    LONGITUDE                  LATITUDE              STREET
+        Virginia Tech Montgomery Executive Airport              -80.4078333                37.2076389            1601 Tech Center Dr, Blacksburg, VA 24060
+        Roanoke-Blacksburg Regional Airport                     -79.9754167                37.3254722            5202 Aviation Dr NW, Roanoke, VA 24012
+        Hartsfield–Jackson Atlanta International Airport        -84.4278640                33.6366996            6000 N Terminal Pkwy, Atlanta, GA 30320
+
+
+*/
+
+/* Hardcoded tickets to start the database off */
+INSERT INTO UserTicket (departure_time, arrival_time, src_name, dest_name, src_longitude, src_latitude, src_street, price, user_id) VALUES 
+('2018-12-01 14:45:00', '2018-12-01 16:55:00', 'Virginia Tech Montgomery Executive Airport1', 'Hartsfield–Jackson Atlanta International Airport', '-80.4078333', '37.2076389', '1601 Tech Center Dr, Blacksburg, VA 24060', '325.00', null);
+
+

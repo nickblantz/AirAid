@@ -233,6 +233,10 @@ public class EmailController {
         // Obtain the email message content from the editorController object
         UserFacade fa = this.getUserFacade();
         User u = fa.findByUsername(str);
+        if (u == null)
+        {
+            return;
+        }
         if (u.getIsVerified())
         {
             this.sendTextMessage(str, pin);
