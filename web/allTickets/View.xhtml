@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Nick Thompson on 2018.06.20
+Copyright © 2016 Nick Thompson. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <!-- 
+        ==========================================================
+        |  Clicking the VIEW button displays this Dialog window  |
+        |  for the user to view the selected ticket's data.       |
+        ==========================================================
+        -->
+        <p:dialog id="TicketViewDlg" widgetVar="TicketViewDialog" modal="true" 
+                  resizable="false" appendTo="@(body)" header="Ticket Info">
+
+            <h:form id="TicketViewForm" class="ui-datatable-data">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" 
+                                 rendered="#{userTicketController.selected != null}">
+
+                        <h:outputText value="Airline:"/>
+                        <h:outputText value="#{userTicketController.selected.airline}"/>
+
+                        <h:outputText value="Source Name:"/>
+                        <h:outputText value="#{userTicketController.selected.srcName}"/>
+
+                        <h:outputText value="Source Address:"/>
+                        <h:outputText value="#{userTicketController.selected.srcStreet}"/>
+
+                        <h:outputText value="Source Longitude:"/>
+                        <h:outputText value="#{userTicketController.selected.srcLongitude}"/>
+
+                        <h:outputText value="Source Latitude:"/>
+                        <h:outputText value="#{userTicketController.selected.srcLatitude}"/>
+
+                        <h:outputText value="Destination Name:"/>
+                        <h:outputText value="#{userTicketController.selected.destName}"/>
+
+                        <h:outputText value="Departure Time:"/>
+                        <h:outputText value="#{userTicketController.selected.departureTime}"/>
+
+                        <h:outputText value="Arrival Time:"/>
+                        <h:outputText value="#{userTicketController.selected.arrivalTime}"/>
+
+                        <h:outputText value="Price:"/>
+                        <h:outputText value="#{userTicketController.selected.price}"/>
+
+                    </p:panelGrid>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <br />
+                    <div align="center">
+                        <!-- CLOSE button -->
+                        <p:commandButton value="#{bundle.Close}" onclick="PF('TicketViewDialog').hide()" 
+
+                                         icon="fas fa-window-close"/>
+                    </div>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:composition>
+</html>
