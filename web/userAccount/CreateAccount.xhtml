@@ -178,16 +178,29 @@ Copyright © 2018 Osman Balci. All rights reserved.
                             <f:validator validatorId="emailValidator" />  
                         </p:inputText>
                         
-                        <p:outputLabel value="Phone Number" for="email" />
-                        <p:inputText id="phone" value="#{userController.phoneNumber}" required="true" class="inputTextField"
-                                     requiredMessage="Please Enter A Phone Number" >
-                            <f:validateLength minimum="10" />
+                        <p:outputLabel value="Phone Number" for="cellPhoneNumber"/>
+                        <p:inputText id="cellPhoneNumber" value="#{userController.phoneNumber}" required="true" class="inputTextField"
+                                     requiredMessage="#{bundle.CreateUserRequiredMessage_email}" >
+                            <f:validateLength minimum="9" />
                             <!-- 
                             Execute the "validate" method in the "EmailValidator.java" 
                             class file to validate the email address entered. 
-                            --> 
+                            -->
                         </p:inputText>
+                        
+                        <p:outputLabel value="Mobile Carrier" for="carrier"/>
+                        <p:selectOneMenu id="carrier" value="#{userController.mobileCarrier}"
+                                         required="true" requiredMessage="Please Select a Carrier!" 
+                                         class="standardText" >
 
+                            <f:selectItem itemLabel="Select a Carrier"  itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="AT&amp;T"          itemValue="mms.att.net" />
+                            <f:selectItem itemLabel="Sprint"            itemValue="pm.sprint.com" />
+                            <f:selectItem itemLabel="T-Mobile"          itemValue="tmomail.net" />
+                            <f:selectItem itemLabel="Verizon"           itemValue="vzwpix.com" />
+                            <f:selectItem itemLabel="Virgin Mobile"     itemValue="vmpix.com" />
+
+                        </p:selectOneMenu>
                         <!--
                         ********************************
                         *       ACCOUNT USERNAME       *

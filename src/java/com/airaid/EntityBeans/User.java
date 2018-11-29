@@ -46,7 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findBySecurityAnswer", query = "SELECT u FROM User u WHERE u.securityAnswer = :securityAnswer")
     , @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
     , @NamedQuery(name = "User.findByIsVerified", query = "SELECT u FROM User u WHERE u.isVerified = :isVerified")
-    , @NamedQuery(name = "User.findByIsDark", query = "SELECT u FROM User u WHERE u.isDark = :isDark")})
+    , @NamedQuery(name = "User.findByIsDark", query = "SELECT u FROM User u WHERE u.isDark = :isDark")
+    , @NamedQuery(name = "User.findByMobileCarrier", query = "SELECT u FROM User u WHERE u.mobileCarrier = :mobileCarrier")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -129,6 +130,11 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "is_dark")
     private boolean isDark;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 32)
+    @Column(name = "mobile_carrier")
+    private String mobileCarrier;
     @OneToMany(mappedBy = "userId")
     private Collection<UserPhoto> userPhotoCollection;
     @OneToMany(mappedBy = "userId")
@@ -141,7 +147,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String username, String password, String firstName, String lastName, String phoneNumber, String address1, String city, String state, String zipcode, int securityQuestionNumber, String securityAnswer, String email, boolean isVerified, boolean isDark) {
+    public User(Integer id, String username, String password, String firstName, String lastName, String phoneNumber, String address1, String city, String state, String zipcode, int securityQuestionNumber, String securityAnswer, String email, boolean isVerified, boolean isDark, String mobileCarrier) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -157,6 +163,7 @@ public class User implements Serializable {
         this.email = email;
         this.isVerified = isVerified;
         this.isDark = isDark;
+        this.mobileCarrier = mobileCarrier;
     }
 
     public Integer getId() {
@@ -293,6 +300,14 @@ public class User implements Serializable {
 
     public void setIsDark(boolean isDark) {
         this.isDark = isDark;
+    }
+
+    public String getMobileCarrier() {
+        return mobileCarrier;
+    }
+
+    public void setMobileCarrier(String mobileCarrier) {
+        this.mobileCarrier = mobileCarrier;
     }
 
     @XmlTransient

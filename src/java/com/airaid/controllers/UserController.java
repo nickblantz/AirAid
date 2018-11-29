@@ -75,6 +75,7 @@ public class UserController implements Serializable {
     private String answerToSecurityQuestion;
     private String email;
     private String phoneNumber;
+    private String mobileCarrier;
     private boolean isDark;
     private Map<String, Object> security_questions;
 
@@ -103,6 +104,16 @@ public class UserController implements Serializable {
      */
     public UserController() {
     }
+
+    public String getMobileCarrier() {
+        return mobileCarrier;
+    }
+
+    public void setMobileCarrier(String mobileCarrier) {
+        this.mobileCarrier = mobileCarrier;
+    }
+    
+    
 
     /*
     =========================
@@ -446,6 +457,7 @@ public class UserController implements Serializable {
             newUser.setPhoneNumber(phoneNumber);
             newUser.setIsVerified(false);
             newUser.setIsDark(false);
+            newUser.setMobileCarrier(mobileCarrier);
 
             //-------------------------------------------------------------------------------------
             // Convert the user-entered String password to a String containing the following parts
@@ -457,7 +469,6 @@ public class UserController implements Serializable {
 
             // Create the user in the database
             getUserFacade().create(newUser);
-
         } catch (EJBException | Password.CannotPerformOperationException ex) {
             username = "";
             Methods.showMessage("Fatal Error", "Something went wrong while creating user's account!",
