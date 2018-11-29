@@ -1,6 +1,7 @@
 /*
- * Created by Viet Doan on 2018.11.28  * 
- * Copyright © 2018 Viet Doan. All rights reserved. * 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.airaid.EntityBeans;
 
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author VDoan
+ * @author Andrew
  */
 @Entity
 @Table(name = "UserTicket")
@@ -40,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "UserTicket.findBySrcLongitude", query = "SELECT u FROM UserTicket u WHERE u.srcLongitude = :srcLongitude")
     , @NamedQuery(name = "UserTicket.findBySrcLatitude", query = "SELECT u FROM UserTicket u WHERE u.srcLatitude = :srcLatitude")
     , @NamedQuery(name = "UserTicket.findBySrcStreet", query = "SELECT u FROM UserTicket u WHERE u.srcStreet = :srcStreet")
+    , @NamedQuery(name = "UserTicket.findByAirline", query = "SELECT u FROM UserTicket u WHERE u.airline = :airline")
     , @NamedQuery(name = "UserTicket.findByPrice", query = "SELECT u FROM UserTicket u WHERE u.price = :price")})
 public class UserTicket implements Serializable {
 
@@ -84,6 +86,11 @@ public class UserTicket implements Serializable {
     private String srcStreet;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 128)
+    @Column(name = "airline")
+    private String airline;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "price")
     private float price;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -97,7 +104,7 @@ public class UserTicket implements Serializable {
         this.id = id;
     }
 
-    public UserTicket(Integer id, Date departureTime, Date arrivalTime, String srcName, String destName, double srcLongitude, double srcLatitude, String srcStreet, float price) {
+    public UserTicket(Integer id, Date departureTime, Date arrivalTime, String srcName, String destName, double srcLongitude, double srcLatitude, String srcStreet, String airline, float price) {
         this.id = id;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
@@ -106,6 +113,7 @@ public class UserTicket implements Serializable {
         this.srcLongitude = srcLongitude;
         this.srcLatitude = srcLatitude;
         this.srcStreet = srcStreet;
+        this.airline = airline;
         this.price = price;
     }
 
@@ -171,6 +179,14 @@ public class UserTicket implements Serializable {
 
     public void setSrcStreet(String srcStreet) {
         this.srcStreet = srcStreet;
+    }
+
+    public String getAirline() {
+        return airline;
+    }
+
+    public void setAirline(String airline) {
+        this.airline = airline;
     }
 
     public float getPrice() {

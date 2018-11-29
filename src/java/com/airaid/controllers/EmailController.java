@@ -327,6 +327,9 @@ public class EmailController {
         UserFacade fa = this.getUserFacade();
         User u = fa.findByUsername(str);
         cellPhoneNumber = u.getPhoneNumber();
+        cellPhoneCarrierDomain = u.getMobileCarrier();
+        System.out.println(cellPhoneNumber);
+        System.out.println(cellPhoneCarrierDomain);
         mmsTextMessage = "Your Authentication Code is: " + pin;
         try {
             // Create an email session using the email server properties set above
