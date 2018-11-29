@@ -129,12 +129,8 @@ Copyright © 2018 Osman Balci. All rights reserved.
                                 <c:choose>
                                     <c:when test="#{userController.isAdministrator() == true}"> 
 
-                                        <h:link outcome="/userTicket/Create" class="standardText" >
-                                            <i class="fas fa-file-alt"></i>&nbsp;Generate Report
-                                        </h:link>
-
-                                        <h:link outcome="/userTicket/Create" class="standardText" >
-                                            <i class="fas fa-list"></i>&nbsp;List All Surveys
+                                        <h:link outcome="/adminTickets/List" class="standardText" >
+                                            <i class="fa fa-plane"></i>&nbsp;List All Users Tickets
                                         </h:link>
 
                                         <h:link outcome="/userAccount/UsersList" class="standardText" >
@@ -165,11 +161,7 @@ Copyright © 2018 Osman Balci. All rights reserved.
                                                     <i class="fa fa-plane"></i>&nbsp;Purchase Tickets
                                                 </h:link>
                                                 <h:link outcome="/userTicket/List" class="standardText" >
-                                                    <i class="fas fa-pencil-alt"></i>&nbsp;Available Tickets
-                                                </h:link>
-
-                                                <h:link outcome="/userTicket/Create" class="standardText" >
-                                                    <i class="fas fa-check"></i>&nbsp;Surveys Taken
+                                                    <i class="fas fa-pencil-alt"></i>&nbsp;My Tickets
                                                 </h:link>
 
                                                 <!-- Clicking "My Account" displays the Profile.xhtml file -->
