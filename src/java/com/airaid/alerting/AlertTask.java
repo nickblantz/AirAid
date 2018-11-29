@@ -43,6 +43,7 @@ public class AlertTask extends TimerTask {
             textMessage.setContent(messageContent, "text/plain");
             Transport transport = smtpSession.getTransport("smtp");
             transport.connect("smtp.gmail.com", "airaid.alerting@gmail.com", "csd@VT-1872");
+            transport.sendMessage(textMessage, textMessage.getAllRecipients());
             transport.close();
         } catch (AddressException ae) {
             System.out.println("Email Address Exception Occurred! See: " + ae.getMessage());
