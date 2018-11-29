@@ -61,7 +61,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUserTicketTitle_userId}"/>
                             </f:facet>
-                            <h:outputText value="#{item.userId}"/>
+                            <h:outputText value="#{item.userId.getId()}"/>
                         </p:column>
                         <f:facet name="footer">
                             <!--p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{userTicketController.prepareCreate}" update=":UserTicketCreateForm" oncomplete="PF('UserTicketCreateDialog').show()"/>

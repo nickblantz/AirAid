@@ -94,6 +94,7 @@ public class UserTicketController implements Serializable {
             items = getFacade().findAll();
         }
         User signedInUser = (User) Methods.sessionMap().get("user");
+        userItems = new ArrayList();
         items.forEach(entry -> {
             if (entry.getUserId() != null){
                 if (entry.getUserId().getId() == signedInUser.getId())
@@ -131,6 +132,13 @@ public class UserTicketController implements Serializable {
             }
         });
         return available;
+    }
+    
+    public String purchaseticket()
+    {
+        User signedInUser = (User) Methods.sessionMap().get("user");
+        selected.setUserId(signedInUser);
+        return "/userTicket/List.xhtml?faces-redirect=true";
     }
     
     private void persist(PersistAction persistAction, String successMessage) {

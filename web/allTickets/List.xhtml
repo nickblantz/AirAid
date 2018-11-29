@@ -38,8 +38,8 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                                      class="dataTable"
                                      >
 
-                            <p:ajax event="rowSelect"   update="viewButton"/>
-                            <p:ajax event="rowUnselect" update="viewButton"/>
+                            <p:ajax event="rowSelect"   update="purchaseTicketButton viewButton"/>
+                            <p:ajax event="rowUnselect" update="purchaseTicketButton viewButton"/>
 
                             <!-- 
                             Clicking the header of a column with 'sortBy' redisplays the table with that  
@@ -93,9 +93,10 @@ Copyright © 2018 Nick Thompson. All rights reserved.
 
                             <f:facet name="footer">
                    
-                                <p:commandButton id="purchaseTicket"    icon="fas fa-eye" value="View Ticket" 
-                                                 update=":TicketViewForm" oncomplete="PF('TicketViewDialog').show()" 
-                                                 disabled="#{empty userTicketController.selected}"/>
+                                <p:commandButton id="purchaseTicketButton"    icon="fa fa-shopping-cart" value="Purchase Ticket" 
+                                                 update=":TicketViewForm" 
+                                                 disabled="#{empty userTicketController.selected}"
+                                                 action="#{userTicketController.purchaseticket()}"/>
                                 
                                 
                                 <p:commandButton id="viewButton"    icon="fas fa-eye" value="View Ticket" 
