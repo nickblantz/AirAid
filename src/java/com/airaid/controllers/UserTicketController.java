@@ -1,9 +1,12 @@
 package com.airaid.controllers;
 
+import com.airaid.EntityBeans.User;
 import com.airaid.EntityBeans.UserTicket;
 import com.airaid.controllers.util.JsfUtil;
 import com.airaid.controllers.util.JsfUtil.PersistAction;
 import com.airaid.FacadeBeans.UserTicketFacade;
+import com.airaid.globals.Methods;
+
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,6 +29,9 @@ public class UserTicketController implements Serializable {
     @EJB
     private com.airaid.FacadeBeans.UserTicketFacade ejbFacade;
     private List<UserTicket> items = null;
+    private List<UserTicket> userItems = null;
+    
+
     private UserTicket selected;
 
     public UserTicketController() {
@@ -81,6 +87,24 @@ public class UserTicketController implements Serializable {
         return items;
     }
 
+    public List<UserTicket> getUsersItems() {
+        if (items == null) {
+            items = getFacade().findAll();
+        }
+        User signedInUser = (User) Methods.sessionMap().get("user");
+        items.forEach(entry -> {
+            if (entry.getUserId() != null){
+                if (entry.getUserId().getId() == signedInUser.getId())
+                {
+                    userItems.add(entry);
+                }
+            }
+        });
+        
+        return userItems;
+    }
+    
+    
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();

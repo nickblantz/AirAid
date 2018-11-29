@@ -10,13 +10,13 @@
 
 
         <ui:define name="title">
-            <h:outputText value="All Available Flights"></h:outputText>
+            <h:outputText value="Your Flights"></h:outputText>
         </ui:define>
 
         <ui:define name="editableContent">
             <h:form id="UserTicketListForm">
-                <p:panel header="#{bundle.ListUserTicketTitle}">
-                    <p:dataTable id="datalist" value="#{userTicketController.items}" var="item"
+                <p:panel header="Your Upcoming Flights">
+                    <p:dataTable id="datalist" value="#{userTicketController.getUsersItems()}" var="item"
                                  selectionMode="single" selection="#{userTicketController.selected}"
                                  paginator="true"
                                  rowKey="#{item.id}"
@@ -26,24 +26,30 @@
 
                         <!--p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/-->
-
+                        
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUserTicketTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUserTicketTitle_sourceAirport}"/>
+                                <h:outputText value="Source Airport"/>
                             </f:facet>
                             <h:outputText value="#{item.srcName}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUserTicketTitle_destinationAirport}"/>
+                                <h:outputText value="Departure Time"/>
+                            </f:facet>
+                            <h:outputText value="#{item.departureTime}"/>
+                        </p:column>                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Destination Airport"/>
                             </f:facet>
                             <h:outputText value="#{item.destName}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Arrival Time"/>
+                            </f:facet>
+                            <h:outputText value="#{item.arrivalTime}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
