@@ -18,55 +18,54 @@ Copyright © 2016 Nick Thompson. All rights reserved.
         ==========================================================
         -->
         <p:dialog id="TicketViewDlg" widgetVar="TicketViewDialog" modal="true" 
-                  resizable="false" appendTo="@(body)" header="#{bundle.ViewTicketTitle}">
+                  resizable="false" appendTo="@(body)" header="Ticket Info">
 
             <h:form id="TicketViewForm" class="ui-datatable-data">
-                
+
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" 
-                                 rendered="#{ticketController.selected != null}">
-                        
-                        <h:outputText value="#{bundle.ViewTicketLabel_title}"/>
-                        <h:outputText value="#{ticketController.selected.title}"/>
-                        
-                        <h:outputLabel value="#{bundle.ViewTicketLabel_youtubeTrailerId}" />
-                        <h:outputText value="#{ticketController.selected.youtubeTrailerId}"/>
+                                 rendered="#{userTicketController.selected != null}">
 
-                        <h:outputText value="#{bundle.ViewTicketLabel_genres}"/>
-                        <h:outputText value="#{ticketController.selected.genres}"/>
+                        <h:outputText value="Airline:"/>
+                        <h:outputText value="#{userTicketController.selected.airline}"/>
 
-                        <h:outputText value="#{bundle.ViewTicketLabel_releaseDate}"/>
-                        <h:outputText value="#{ticketController.selected.releaseDate}">
-                            <!-- 
-                            Date is stored in the database in the format YYYY-MM-DD so that it is sortable.
-                            For display purposes, we convert the database format to MM/DD/YYYY.
-                            -->
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </h:outputText>
+                        <h:outputText value="Source Name:"/>
+                        <h:outputText value="#{userTicketController.selected.srcName}"/>
 
-                        <h:outputText value="#{bundle.ViewTicketLabel_director}"/>
-                        <h:outputText value="#{ticketController.selected.director}"/>
+                        <h:outputText value="Source Address:"/>
+                        <h:outputText value="#{userTicketController.selected.srcStreet}"/>
 
-                        <h:outputText value="#{bundle.ViewTicketLabel_stars}"/>
-                        <h:outputText value="#{ticketController.selected.stars}"/>
+                        <h:outputText value="Source Longitude:"/>
+                        <h:outputText value="#{userTicketController.selected.srcLongitude}"/>
 
-                        <h:outputText value="MPAA Rating:"/>
-                        <h:outputText value="#{ticketController.selected.filmRating}"/>
+                        <h:outputText value="Source Latitude:"/>
+                        <h:outputText value="#{userTicketController.selected.srcLatitude}"/>
 
-                        <h:outputText value="Percent Liked:"/>
-                        <h:outputText value="#{ticketController.selected.percentLiked}"/>
+                        <h:outputText value="Destination Name:"/>
+                        <h:outputText value="#{userTicketController.selected.destName}"/>
+
+                        <h:outputText value="Departure Time:"/>
+                        <h:outputText value="#{userTicketController.selected.departureTime}"/>
+
+                        <h:outputText value="Arrival Time:"/>
+                        <h:outputText value="#{userTicketController.selected.arrivalTime}"/>
+
+                        <h:outputText value="Price:"/>
+                        <h:outputText value="#{userTicketController.selected.price}"/>
+
                     </p:panelGrid>
                 </h:panelGroup>
-                
+
                 <h:panelGroup>
                     <br />
                     <div align="center">
                         <!-- CLOSE button -->
                         <p:commandButton value="#{bundle.Close}" onclick="PF('TicketViewDialog').hide()" 
+
                                          icon="fas fa-window-close"/>
                     </div>
                 </h:panelGroup>
-                
+
             </h:form>
 
         </p:dialog>

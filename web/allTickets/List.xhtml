@@ -33,8 +33,8 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                                      reflow="true"
                                      paginator="true"
                                      rowKey="#{item.id}"
-                                     rows="5"
-                                     rowsPerPageTemplate="5,10,15,20,30,40,50"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,15,20,30,40,50"
                                      class="dataTable"
                                      >
 
@@ -93,7 +93,9 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                    
 
                                 <p:commandButton id="viewButton"    icon="fas fa-eye" value="View Ticket" 
+                                                 update=":TicketViewForm" oncomplete="PF('TicketViewDialog').show()" 
                                                  disabled="#{empty userTicketController.selected}"/>
+
 
                             
                             </f:facet>
