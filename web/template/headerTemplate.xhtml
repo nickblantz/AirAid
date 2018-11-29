@@ -156,7 +156,9 @@ Copyright © 2018 Osman Balci. All rights reserved.
                                     <c:otherwise> 
                                         <c:choose>
                                             <c:when test="#{userController.isLoggedIn() == true}"> 
-
+                                                <h:link onclick="PF('FlightSearchDialog').show();return false;" class="standardText">
+                                                    <i class="fas fa-search"></i>&nbsp;Flight Search
+                                                </h:link>
                                                 <h:link outcome="/allTickets/List" class="standardText" >
                                                     <i class="fa fa-plane"></i>&nbsp;Purchase Tickets
                                                 </h:link>
@@ -213,6 +215,8 @@ Copyright © 2018 Osman Balci. All rights reserved.
             </table>
 
         </h:form>
+        
+        <ui:include src="/flightSearch/Search.xhtml"/>
 
     </ui:composition>
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->

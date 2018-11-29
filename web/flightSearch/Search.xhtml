@@ -16,30 +16,31 @@ Copyright © 2018 Osman Balci. All rights reserved.
         *******************************
         -->
         <!-- Clicking the Search button displays this file in a dialog window on top of the Search button's page. -->
-        <p:dialog position="center center" id="CompanySearchDlg" widgetVar="FlightSearchDialog" modal="true" 
+        <p:dialog position="center center" id="FlightSearchDlg" widgetVar="FlightSearchDialog" modal="true" 
                   resizable="false" appendTo="@(body)" header="Search Flights" >
             
-            <h:form id="CompanySearchForm">
+            <h:form id="FlightSearchForm">
                 <p:panel>                
                     
-                    <h:panelGrid columns="4">
+                    <h:panelGrid columns="3">
                         
-                        <h:outputLabel value="Search: "/>
-                        
-                        <p:inputText id="flightSource" value="#{flightController.flightSource}" 
+                        <h:outputLabel value="Source: " style="color: white;"/>
+                        <p:inputText id="flightSource" value="#{flightSearchController.source}" 
                                      required="true" requiredMessage="Please enter a source airport!"
                                      placeholder="Enter source airport" >
                             <f:validateLength minimum="1" />
                         </p:inputText>
-                        
-                        <p:inputText id="flightDestination" value="#{flightController.flightDestination}" 
+                        <br />
+                        <h:outputLabel value="Destination: " style="color: white;"/>
+                        <p:inputText id="flightDestination" value="#{flightSearchController.destination}" 
                                      required="true" requiredMessage="Please enter a destination airport!"
                                      placeholder="Enter destination airport" >
                             <f:validateLength minimum="1" />
                         </p:inputText>
-                        
+                        <br />
+                        <h:outputLabel value="Flight Date: " style="color: white;"/>
                         <p:calendar id="flightDate" pattern="MM/dd/yyyy" class="inputTextField" mask="true"
-                                    value="#{flightController.flightDate}"
+                                    value="#{flightSearchController.flightDate}"
                                     required ="true" requiredMessage="Please enter a flight date!" />
                         
                     </h:panelGrid>
@@ -49,7 +50,7 @@ Copyright © 2018 Osman Balci. All rights reserved.
                         <div align="center">
                             <!-- SUBMIT button -->
                             <p:commandButton value="Submit" icon="fas fa-arrow-up" ajax="false" 
-                                              action="#{flightController.search()}" /> 
+                                              action="#{flightSearchController.performSearch()}" /> 
                             &nbsp;
                             <!-- CANCEL button -->
                             <p:commandButton value="#{bundle.Cancel}" onclick="PF('FlightSearchDialog').hide()"    
