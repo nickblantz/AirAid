@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Nick Thompson on 2018.06.20 
+Copyright © 2018 Nick Thompson. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="All Available Tickets"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <div align="center" style="width:97%;">
+
+                <h:form id="TicketListForm">
+                    <p:panel header="All Available Tickets">
+                        <!-- reflow="true" makes the dataTable Responsive, i.e., viewable on mobile devices -->
+                        <p:dataTable id="datalist" value="#{userTicketController.items}" var="item"
+                                     selectionMode="single" selection="#{userTicketController.selected}"
+                                     reflow="true"
+                                     paginator="true"
+                                     rowKey="#{item.id}"
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,15,20,30,40,50"
+                                     class="dataTable"
+                                     >
+
+                            <p:ajax event="rowSelect"   update="viewButton"/>
+                            <p:ajax event="rowUnselect" update="viewButton"/>
+
+                            <!-- 
+                            Clicking the header of a column with 'sortBy' redisplays the table with that  
+                            column sorted in alphabetical order A to Z or numerically in ascending order. 
+                            Clicking it again reverses the order to Z to A or numerically in descending order.
+                            -->
+
+                            <!--
+                            ********************
+                            *    Ticket Title   *
+                            ********************
+                            -->
+                            <p:column sortBy="#{item.airline}" headerText="Airline" 
+                                      style="min-width:150px;">
+                                <h:outputText class="inputTextField" value="#{item.airline}"/>
+                            </p:column>
+                            
+                            <p:column sortBy="#{item.srcName}" headerText="Source" 
+                                      style="min-width:150px;">
+                                <h:outputText class="inputTextField" value="#{item.srcName}"/>
+                            </p:column>
+                            
+                            <p:column sortBy="#{item.destName}" headerText="Destination" 
+                                      style="min-width:150px;">
+                                <h:outputText class="inputTextField" value="#{item.destName}"/>
+                            </p:column>
+                            
+                            <p:column sortBy="#{item.departureTime}" headerText="Departure Time" 
+                                      style="min-width:150px;">
+                                <h:outputText class="inputTextField" value="#{item.departureTime}"/>
+                            </p:column>
+                            
+                            <p:column sortBy="#{item.arrivalTime}" headerText="Arrival Time" 
+                                      style="min-width:150px;">
+                                <h:outputText class="inputTextField" value="#{item.arrivalTime}"/>
+                            </p:column>
+                            
+                            <p:column sortBy="#{item.price}" headerText="Price" 
+                                      style="min-width:150px;">
+                                <h:outputText class="inputTextField" value="#{item.price}"/>
+                            </p:column>
+
+                           
+                            <br /><br />
+
+                            <!--
+                            The "footer" facet is defined for p:dataTable. See PrimeFaces User Guide.
+                            -->
+
+                            <f:facet name="footer">
+                   
+
+                                <p:commandButton id="viewButton"    icon="fas fa-eye" value="View Ticket" 
+                                                 disabled="#{empty userTicketController.selected}"/>
+
+                            
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+
+            </div>
+
+
+            <!-- Clicking the View button displays the included View.xhtml file in a dialog box on top of this page. -->
+            <ui:include src="/allTickets/View.xhtml"/>
+
+
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>
