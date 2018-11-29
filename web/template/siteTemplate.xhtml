@@ -52,7 +52,7 @@ Copyright © 2018 Osman Balci. All rights reserved.
         <c:choose>
             <c:when test="#{userController.isLoggedIn() == true}">
                 <c:choose>
-                    <c:when test="#{userController.selected.isDark == true}">
+                    <c:when test="#{userController.getCurrent().isDark == true}">
                         <h:outputStylesheet library="css" name="siteStylesDark.css" />
                     </c:when> 
                     <c:otherwise>

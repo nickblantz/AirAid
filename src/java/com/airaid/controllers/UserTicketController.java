@@ -9,6 +9,7 @@ import com.airaid.globals.Methods;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -28,6 +29,7 @@ public class UserTicketController implements Serializable {
 
     @EJB
     private com.airaid.FacadeBeans.UserTicketFacade ejbFacade;
+    private ArrayList<UserTicket> available = new ArrayList();
     private List<UserTicket> items = null;
     private List<UserTicket> userItems = null;
     
@@ -104,6 +106,18 @@ public class UserTicketController implements Serializable {
         return userItems;
     }
     
+    
+    public List<UserTicket> getFreeItems() {
+        if (items == null) {
+            items = getFacade().findAll();
+        }
+        items.forEach(item -> {
+            if (item.getUserId() == null) {
+                available.add(item);
+            }
+        });
+        return available;
+    }
     
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {

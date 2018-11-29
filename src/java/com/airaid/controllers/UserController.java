@@ -78,7 +78,7 @@ public class UserController implements Serializable {
     private String mobileCarrier;
     private boolean isDark;
     private Map<String, Object> security_questions;
-
+    private User currentUser;
     private User selected;
 
     /*
@@ -486,6 +486,10 @@ public class UserController implements Serializable {
         return "/SignIn.xhtml?faces-redirect=true";
     }
 
+    public User getCurrent() {
+        currentUser = (User) Methods.sessionMap().get("user"); 
+        return currentUser;
+    }
     /*
     ***********************************************************
     Update User's Account and Redirect to Show the Profile Page

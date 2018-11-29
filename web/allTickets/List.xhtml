@@ -28,7 +28,7 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                 <h:form id="TicketListForm">
                     <p:panel header="All Available Tickets">
                         <!-- reflow="true" makes the dataTable Responsive, i.e., viewable on mobile devices -->
-                        <p:dataTable id="datalist" value="#{userTicketController.items}" var="item"
+                        <p:dataTable id="datalist" value="#{userTicketController.getFreeItems()}" var="item"
                                      selectionMode="single" selection="#{userTicketController.selected}"
                                      reflow="true"
                                      paginator="true"
