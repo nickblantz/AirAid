@@ -111,8 +111,22 @@ public class UserTicketController implements Serializable {
         if (items == null) {
             items = getFacade().findAll();
         }
+        available.clear();
         items.forEach(item -> {
             if (item.getUserId() == null) {
+                available.add(item);
+            }
+        });
+        return available;
+    }
+    
+    public List<UserTicket> purchasedTickets() {
+        if (items == null) {
+            items = getFacade().findAll();
+        }
+        available.clear();
+        items.forEach(item -> {
+            if (item.getUserId() != null) {
                 available.add(item);
             }
         });
