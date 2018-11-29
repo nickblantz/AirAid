@@ -1,6 +1,7 @@
 /*
- * Created by Viet Doan on 2018.11.27  * 
- * Copyright © 2018 Viet Doan. All rights reserved. * 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.airaid.EntityBeans;
 
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author VDoan
+ * @author Andrew
  */
 @Entity
 @Table(name = "User")
@@ -80,7 +81,7 @@ public class User implements Serializable {
     private String lastName;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 11)
+    @Size(min = 1, max = 32)
     @Column(name = "phone_number")
     private String phoneNumber;
     @Basic(optional = false)
@@ -129,8 +130,6 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "is_dark")
     private boolean isDark;
-    @OneToMany(mappedBy = "userId")
-    private Collection<UserPhoto> userPhotoCollection;
     @OneToMany(mappedBy = "userId")
     private Collection<UserTicket> userTicketCollection;
 
@@ -293,15 +292,6 @@ public class User implements Serializable {
 
     public void setIsDark(boolean isDark) {
         this.isDark = isDark;
-    }
-
-    @XmlTransient
-    public Collection<UserPhoto> getUserPhotoCollection() {
-        return userPhotoCollection;
-    }
-
-    public void setUserPhotoCollection(Collection<UserPhoto> userPhotoCollection) {
-        this.userPhotoCollection = userPhotoCollection;
     }
 
     @XmlTransient
