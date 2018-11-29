@@ -182,7 +182,7 @@ public class EmailController {
     }
 
     public void setCellPhoneNumber(String cellPhoneNumber) {
-        this.cellPhoneNumber = cellPhoneNumber;
+        this.cellPhoneNumber = cellPhoneNumber.replaceAll("[^0-9.]", "");
     }
 
     public String getCellPhoneCarrierDomain() {

@@ -1,5 +1,5 @@
 /*
- * Created by Viet Doan on 2018.11.27  * 
+ * Created by Viet Doan on 2018.11.28  * 
  * Copyright © 2018 Viet Doan. All rights reserved. * 
  */
 package com.airaid.EntityBeans;
@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,12 +33,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "UserTicket.findAll", query = "SELECT u FROM UserTicket u")
     , @NamedQuery(name = "UserTicket.findById", query = "SELECT u FROM UserTicket u WHERE u.id = :id")
-    , @NamedQuery(name = "UserTicket.findByFlightDatetime", query = "SELECT u FROM UserTicket u WHERE u.flightDatetime = :flightDatetime")
-    , @NamedQuery(name = "UserTicket.findByFlightId", query = "SELECT u FROM UserTicket u WHERE u.flightId = :flightId")
+    , @NamedQuery(name = "UserTicket.findByDepartureTime", query = "SELECT u FROM UserTicket u WHERE u.departureTime = :departureTime")
+    , @NamedQuery(name = "UserTicket.findByArrivalTime", query = "SELECT u FROM UserTicket u WHERE u.arrivalTime = :arrivalTime")
     , @NamedQuery(name = "UserTicket.findBySrcName", query = "SELECT u FROM UserTicket u WHERE u.srcName = :srcName")
+    , @NamedQuery(name = "UserTicket.findByDestName", query = "SELECT u FROM UserTicket u WHERE u.destName = :destName")
     , @NamedQuery(name = "UserTicket.findBySrcLongitude", query = "SELECT u FROM UserTicket u WHERE u.srcLongitude = :srcLongitude")
     , @NamedQuery(name = "UserTicket.findBySrcLatitude", query = "SELECT u FROM UserTicket u WHERE u.srcLatitude = :srcLatitude")
-    , @NamedQuery(name = "UserTicket.findByDestName", query = "SELECT u FROM UserTicket u WHERE u.destName = :destName")
+    , @NamedQuery(name = "UserTicket.findBySrcStreet", query = "SELECT u FROM UserTicket u WHERE u.srcStreet = :srcStreet")
     , @NamedQuery(name = "UserTicket.findByPrice", query = "SELECT u FROM UserTicket u WHERE u.price = :price")})
 public class UserTicket implements Serializable {
 
@@ -51,25 +51,24 @@ public class UserTicket implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "flight_datetime")
+    @Column(name = "departure_time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date flightDatetime;
+    private Date departureTime;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 16777215)
-    @Column(name = "expected_travel_time")
-    private String expectedTravelTime;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
-    @Column(name = "flight_id")
-    private String flightId;
+    @Column(name = "arrival_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date arrivalTime;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 128)
     @Column(name = "src_name")
     private String srcName;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 128)
+    @Column(name = "dest_name")
+    private String destName;
     @Basic(optional = false)
     @NotNull
     @Column(name = "src_longitude")
@@ -81,8 +80,8 @@ public class UserTicket implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 128)
-    @Column(name = "dest_name")
-    private String destName;
+    @Column(name = "src_street")
+    private String srcStreet;
     @Basic(optional = false)
     @NotNull
     @Column(name = "price")
@@ -98,15 +97,15 @@ public class UserTicket implements Serializable {
         this.id = id;
     }
 
-    public UserTicket(Integer id, Date flightDatetime, String expectedTravelTime, String flightId, String srcName, double srcLongitude, double srcLatitude, String destName, float price) {
+    public UserTicket(Integer id, Date departureTime, Date arrivalTime, String srcName, String destName, double srcLongitude, double srcLatitude, String srcStreet, float price) {
         this.id = id;
-        this.flightDatetime = flightDatetime;
-        this.expectedTravelTime = expectedTravelTime;
-        this.flightId = flightId;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
         this.srcName = srcName;
+        this.destName = destName;
         this.srcLongitude = srcLongitude;
         this.srcLatitude = srcLatitude;
-        this.destName = destName;
+        this.srcStreet = srcStreet;
         this.price = price;
     }
 
@@ -118,28 +117,20 @@ public class UserTicket implements Serializable {
         this.id = id;
     }
 
-    public Date getFlightDatetime() {
-        return flightDatetime;
+    public Date getDepartureTime() {
+        return departureTime;
     }
 
-    public void setFlightDatetime(Date flightDatetime) {
-        this.flightDatetime = flightDatetime;
+    public void setDepartureTime(Date departureTime) {
+        this.departureTime = departureTime;
     }
 
-    public String getExpectedTravelTime() {
-        return expectedTravelTime;
+    public Date getArrivalTime() {
+        return arrivalTime;
     }
 
-    public void setExpectedTravelTime(String expectedTravelTime) {
-        this.expectedTravelTime = expectedTravelTime;
-    }
-
-    public String getFlightId() {
-        return flightId;
-    }
-
-    public void setFlightId(String flightId) {
-        this.flightId = flightId;
+    public void setArrivalTime(Date arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public String getSrcName() {
@@ -148,6 +139,14 @@ public class UserTicket implements Serializable {
 
     public void setSrcName(String srcName) {
         this.srcName = srcName;
+    }
+
+    public String getDestName() {
+        return destName;
+    }
+
+    public void setDestName(String destName) {
+        this.destName = destName;
     }
 
     public double getSrcLongitude() {
@@ -166,12 +165,12 @@ public class UserTicket implements Serializable {
         this.srcLatitude = srcLatitude;
     }
 
-    public String getDestName() {
-        return destName;
+    public String getSrcStreet() {
+        return srcStreet;
     }
 
-    public void setDestName(String destName) {
-        this.destName = destName;
+    public void setSrcStreet(String srcStreet) {
+        this.srcStreet = srcStreet;
     }
 
     public float getPrice() {

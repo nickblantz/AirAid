@@ -179,14 +179,9 @@ Copyright © 2018 Osman Balci. All rights reserved.
                         </p:inputText>
                         
                         <p:outputLabel value="Phone Number" for="cellPhoneNumber"/>
-                        <p:inputText id="cellPhoneNumber" value="#{userController.phoneNumber}" required="true" class="inputTextField"
-                                     requiredMessage="#{bundle.CreateUserRequiredMessage_email}" >
-                            <f:validateLength minimum="9" />
-                            <!-- 
-                            Execute the "validate" method in the "EmailValidator.java" 
-                            class file to validate the email address entered. 
-                            -->
-                        </p:inputText>
+                        <p:inputMask id="cellPhoneNumber" class="standardText"
+                                     required="true" requiredMessage="Cell Phone Number is Required!" 
+                                     value="#{userController.phoneNumber}" mask="(999) 999-9999" />
                         
                         <p:outputLabel value="Mobile Carrier" for="carrier"/>
                         <p:selectOneMenu id="carrier" value="#{userController.mobileCarrier}"

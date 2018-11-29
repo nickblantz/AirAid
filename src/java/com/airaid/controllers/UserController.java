@@ -454,6 +454,7 @@ public class UserController implements Serializable {
             newUser.setSecurityAnswer(answerToSecurityQuestion);
             newUser.setEmail(email);
             newUser.setUsername(username);
+            System.out.println(phoneNumber);
             newUser.setPhoneNumber(phoneNumber);
             newUser.setIsVerified(false);
             newUser.setIsDark(false);

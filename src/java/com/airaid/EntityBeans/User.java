@@ -1,5 +1,5 @@
 /*
- * Created by Viet Doan on 2018.11.27  * 
+ * Created by Viet Doan on 2018.11.28  * 
  * Copyright © 2018 Viet Doan. All rights reserved. * 
  */
 package com.airaid.EntityBeans;
@@ -81,7 +81,8 @@ public class User implements Serializable {
     private String lastName;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 11)
+    @Size(min = 
+            , max = 32)
     @Column(name = "phone_number")
     private String phoneNumber;
     @Basic(optional = false)
