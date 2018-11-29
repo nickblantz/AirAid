@@ -73,6 +73,7 @@ CREATE TABLE UserTicket
 */
 
 /* Hardcoded tickets to start the database off */
+
 INSERT INTO UserTicket (departure_time, arrival_time, src_name, dest_name, src_longitude, src_latitude, src_street, airline, price, user_id) VALUES 
 ('2018-12-01 14:45:00', '2018-12-01 16:55:00', 'Virginia Tech Montgomery Executive Airport', 'Hartsfield–Jackson Atlanta International Airport', '-80.4078333', '37.2076389', '1601 Tech Center Dr, Blacksburg, VA 24060', 'AirAids', '325.00', null),
 ('2018-12-02 03:25:00', '2018-12-02 06:15:00', 'Virginia Tech Montgomery Executive Airport', 'Hartsfield–Jackson Atlanta International Airport', '-80.4078333', '37.2076389', '1601 Tech Center Dr, Blacksburg, VA 24060', 'AirAids', '325.00', null),
