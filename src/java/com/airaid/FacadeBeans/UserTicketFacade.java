@@ -45,7 +45,7 @@ public class UserTicketFacade extends AbstractFacade<UserTicket> {
         Date startDate = dateModifier.getTime();
         dateModifier.add(Calendar.DAY_OF_MONTH, 1);
         Date endDate = dateModifier.getTime();
-        System.out.println("Start Date: " + startDate.toString() + " End Date: " + endDate.toString());
+        System.out.println("Source: " + source + " Destination: " + destination + " Start Date: " + startDate.toString() + " End Date: " + endDate.toString());
         // Conduct the search in a case-insensitive manner and return the results in a list.
         return getEntityManager().createQuery("SELECT ut FROM UserTicket ut WHERE ut.userId IS null AND ut.srcName = :srcName AND ut.destName = :destName AND ut.departureTime BETWEEN :startDate AND :endDate")
                 .setParameter("srcName", source)
