@@ -341,6 +341,7 @@ Used in Profile
     font-size: 10pt;
     font-style: normal;
     font-weight: normal;
+    color: white;
 }
 
 /* Used in CreateAccount, EditAccount, SignIn, EnterUsername, and SecurityQuestion */

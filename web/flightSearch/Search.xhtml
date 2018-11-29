@@ -24,21 +24,21 @@ Copyright © 2018 Osman Balci. All rights reserved.
                     
                     <h:panelGrid columns="3">
                         
-                        <h:outputLabel value="Source: " style="color: white;"/>
+                        <h:outputLabel value="Source: " class="standardText"/>
                         <p:inputText id="flightSource" value="#{flightSearchController.source}" 
                                      required="true" requiredMessage="Please enter a source airport!"
                                      placeholder="Enter source airport" >
                             <f:validateLength minimum="1" />
                         </p:inputText>
                         <br />
-                        <h:outputLabel value="Destination: " style="color: white;"/>
+                        <h:outputLabel value="Destination: " class="standardText"/>
                         <p:inputText id="flightDestination" value="#{flightSearchController.destination}" 
                                      required="true" requiredMessage="Please enter a destination airport!"
                                      placeholder="Enter destination airport" >
                             <f:validateLength minimum="1" />
                         </p:inputText>
                         <br />
-                        <h:outputLabel value="Flight Date: " style="color: white;"/>
+                        <h:outputLabel value="Flight Date: " class="standardText"/>
                         <p:calendar id="flightDate" pattern="MM/dd/yyyy" class="inputTextField" mask="true"
                                     value="#{flightSearchController.flightDate}"
                                     required ="true" requiredMessage="Please enter a flight date!" />

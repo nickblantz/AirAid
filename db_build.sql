@@ -150,7 +150,7 @@ CREATE TABLE UserTicket
 INSERT INTO UserTicket (departure_time, arrival_time, src_name, dest_name, src_longitude, src_latitude, src_street, airline, price, user_id) VALUES 
 ('2018-12-01 14:45:00', '2018-12-01 16:55:00', 'Virginia Tech Montgomery Executive Airport', 'San Diego International Airport', '-80.4078333', '37.2076389', '1601 Tech Center Dr, Blacksburg, VA 24060', 'AirAid', '320.00', null),
 ('2018-12-02 03:25:00', '2018-12-02 06:15:00', 'Tampa International Airport', 'Detroit Metropolitan Airport', '-82.5332500', '27.9754722', '4100 George J Bean Pkwy, Tampa, FL 33607', 'AirAid', '435.00', null),
-('2018-12-03 21:30:00', '2018-12-03 16:55:00', 'Phoenix Sky Harbor International Airport', 'Hartsfield-Jackson Atlanta International Airport', '-112.0115833', '33.4342778', '3400 E Sky Harbor Blvd, Phoenix, AZ 85034', 'AirAid', '230.00', null),
+('2018-12-03 21:30:00', '2018-12-03 23:55:00', 'Phoenix Sky Harbor International Airport', 'Hartsfield-Jackson Atlanta International Airport', '-112.0115833', '33.4342778', '3400 E Sky Harbor Blvd, Phoenix, AZ 85034', 'AirAid', '230.00', null),
 ('2018-12-04 12:00:00', '2018-12-04 14:25:00', 'Portland International Airport', 'San Francisco International Airport', '-122.5968694', '45.5887089', '7000 NE Airport Way, Portland, OR 97218', 'AirAid', '335.00', null),
 ('2018-12-05 07:15:00', '2018-12-05 09:35:00', 'Washington Dulles International Airport', 'John F. Kennedy International Airport', '-77.4599444', '38.9474444', '1 Saarinen Cir, Dulles, VA 20166', 'AirAid', '240.00', null),
 ('2018-12-06 14:45:00', '2018-12-06 16:55:00', 'John F. Kennedy International Airport', 'Salt Lake City International Airport', '-73.7786950', '40.6399257', 'Queens, NY 11430', 'AirAid', '410.00', null),
