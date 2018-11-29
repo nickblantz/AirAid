@@ -133,7 +133,7 @@ public class UserController implements Serializable {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber.replaceAll("[^0-9.]", "");
     }
     
     public String getPassword() {
