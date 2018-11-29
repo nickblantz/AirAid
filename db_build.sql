@@ -30,6 +30,7 @@ CREATE TABLE User
     email VARCHAR(128) NOT NULL,
     is_verified BOOLEAN NOT NULL,
     is_dark BOOLEAN NOT NULL,	
+    mobile_carrier VARCHAR(32) NOT NULL,
     PRIMARY KEY (id)
 );
 

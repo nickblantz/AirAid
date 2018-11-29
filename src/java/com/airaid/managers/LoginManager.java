@@ -181,7 +181,7 @@ public class LoginManager implements Serializable {
         }
         if (user.getIsVerified())
         {
-            return this.loginUser();
+            return "/userAccount/VerifyText.xhtml?faces-redirect=true";
         }
         return "/userAccount/VerifyEmail.xhtml?faces-redirect=true";
     }

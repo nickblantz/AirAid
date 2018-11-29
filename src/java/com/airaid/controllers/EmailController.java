@@ -53,6 +53,15 @@ public class EmailController {
     Instance Variables (Properties)
     ===============================
      */
+    
+    private String cellPhoneNumber;         // Cell phone number to which MMS Text Message to be sent. 
+    private String cellPhoneCarrierDomain;  // Cell phone carrier company's MMS gateway domain name.
+    private String mmsTextMessage;          // MMS text message content. 
+
+    Properties emailServerProperties;   // java.util.Properties
+    Session emailSession;               // javax.mail.Session  
+    MimeMessage mimeEmailMessage;  
+    
     private String emailTo;             // Contains only one email address to send email to
     private String emailCc;             // Contains comma separated multiple email addresses with no spaces
     private String emailSubject;        // Subject line of the email message
@@ -68,9 +77,6 @@ public class EmailController {
     public void setKey(String key) {
         this.key = key;
     }
-    
-    Properties emailServerProperties;   // java.util.Properties
-    Session emailSession;               // javax.mail.Session
     MimeMessage htmlEmailMessage;       // javax.mail.internet.MimeMessage
 
     /*
@@ -171,6 +177,40 @@ public class EmailController {
         this.emailBody = emailBody;
     }
 
+    public String getCellPhoneNumber() {
+        return cellPhoneNumber;
+    }
+
+    public void setCellPhoneNumber(String cellPhoneNumber) {
+        this.cellPhoneNumber = cellPhoneNumber.replaceAll("[^0-9.]", "");
+    }
+
+    public String getCellPhoneCarrierDomain() {
+        return cellPhoneCarrierDomain;
+    }
+
+    public void setCellPhoneCarrierDomain(String cellPhoneCarrierDomain) {
+        this.cellPhoneCarrierDomain = cellPhoneCarrierDomain;
+    }
+
+    public String getMmsTextMessage() {
+        return mmsTextMessage;
+    }
+
+    public void setMmsTextMessage(String mmsTextMessage) {
+        this.mmsTextMessage = mmsTextMessage;
+    }
+
+    public MimeMessage getMimeEmailMessage() {
+        return mimeEmailMessage;
+    }
+
+    public void setMimeEmailMessage(MimeMessage mimeEmailMessage) {
+        this.mimeEmailMessage = mimeEmailMessage;
+    }
+    
+    
+
     
     public String getRandomString()
     {
@@ -199,10 +239,12 @@ public class EmailController {
         }
         if (u.getIsVerified())
         {
+            this.sendTextMessage(str, pin);
             return;
         }
         emailTo = u.getEmail();
-        emailBody = "The Verification Pin is: " + pin;
+        emailBody = "Your Verification Pin is: " + pin;
+        emailSubject = "AirAid Verification Email";
 
         // Set Email Server Properties
         emailServerProperties = System.getProperties();
@@ -265,6 +307,90 @@ public class EmailController {
             Methods.showMessage("Fatal Error",
                     "Email Messaging Exception Occurred! Internet Connection Required!",
                     "See: " + me.getMessage());
+        }
+    }
+    
+    public void clearTextMessage() {
+
+        cellPhoneNumber = "";
+        cellPhoneCarrierDomain = null;
+        mmsTextMessage = "";
+    }
+    
+    public void sendTextMessage(String str, String pin) throws AddressException, MessagingException {
+
+        // Set Email Server Properties
+        emailServerProperties = System.getProperties();
+        emailServerProperties.put("mail.smtp.port", "587");
+        emailServerProperties.put("mail.smtp.auth", "true");
+        emailServerProperties.put("mail.smtp.starttls.enable", "true");
+        UserFacade fa = this.getUserFacade();
+        User u = fa.findByUsername(str);
+        cellPhoneNumber = u.getPhoneNumber();
+        cellPhoneCarrierDomain = u.getMobileCarrier();
+        System.out.println(cellPhoneNumber);
+        System.out.println(cellPhoneCarrierDomain);
+        mmsTextMessage = "Your Authentication Code is: " + pin;
+        try {
+            // Create an email session using the email server properties set above
+            emailSession = Session.getDefaultInstance(emailServerProperties, null);
+
+            /*
+            Create a Multi-purpose Internet Mail Extensions (MIME) style email
+            message from the MimeMessage class under the email session created.
+             */
+            mimeEmailMessage = new MimeMessage(emailSession);
+
+            /*
+            Specify the email address to send the email message containing the text message as
+            
+                    5401234567@CellPhoneCarrier's MMS gateway domain
+            
+            The designated cell phone number will be charged for the text messaging by its carrier.
+            Here are the MMS gateway domain names for some of the cell phone carriers and examples:
+            
+                mms.att.net     for AT&T            5401234567@mms.att.net
+                pm.sprint.com   for Sprint          5401234567@pm.sprint.com
+                tmomail.net     for T-Mobile        5401234567@tmomail.net
+                vzwpix.com      for Verizon         5401234567@vzwpix.com
+                vmpix.com       for Virgin Mobile   5401234567@vmpix.com
+             */
+            mimeEmailMessage.addRecipient(Message.RecipientType.TO, 
+                    new InternetAddress(cellPhoneNumber + "@" + cellPhoneCarrierDomain));
+
+            /*
+             Since some cell phones may not be able to process text messages in the HTML format,
+             send the email message containing the text message in Plain Text format.
+             */
+            mimeEmailMessage.setContent(mmsTextMessage, "text/plain");
+
+            // Create a transport object that implements the Simple Mail Transfer Protocol (SMTP)
+            Transport transport = emailSession.getTransport("smtp");
+
+            /*
+            Connect to Gmail's SMTP server using the username and password provided.
+            For the Gmail's SMTP server to accept the unsecure connection, the
+            Cloud.Software.Email@gmail.com account's "Allow less secure apps" option is set to ON.
+             */
+            transport.connect("smtp.gmail.com", "Cloud.Software.Email@gmail.com", "csd@VT-1872");
+
+            // Send the email message containing the text message to the specified email address
+            transport.sendMessage(mimeEmailMessage, mimeEmailMessage.getAllRecipients());
+
+            // Close this service and terminate its connection
+            transport.close();
+
+            Methods.showMessage("Information", "Success!", "MMS Text Message is Sent!");
+            clearTextMessage();
+
+        } catch (AddressException ae) {
+            Methods.showMessage("Fatal Error", "Email Address Exception Occurred!",
+                            "See: " + ae.getMessage());
+
+        } catch (MessagingException me) {
+            Methods.showMessage("Fatal Error",
+                            "Email Messaging Exception Occurred! Internet Connection Required!",
+                            "See: " + me.getMessage());
         }
     }
 
