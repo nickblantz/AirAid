@@ -196,7 +196,8 @@ public class LoginManager implements Serializable {
     
     public String verify(String str)
     {
-        if (pin.equals(pinAnswer))
+        //TODO Remove Bypass
+        if (pin.equals(pinAnswer) || pin.equals("Admin"))
         {
             User user = this.getUserFacade().findByUsername(str);
             user.setIsVerified(true);
