@@ -29,6 +29,7 @@ html, body {
 
     width: 100%;                    /* Set page width horizontally 100% */
     height: 100%;                   /* Set page height vertically 100% */
+    overflow-x: hidden;
 }
 
 #imageSlider {
