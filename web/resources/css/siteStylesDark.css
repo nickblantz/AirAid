@@ -51,6 +51,9 @@ h1 {
     color: white;
 }
 
+img {
+    z-index: 0 !important;
+}
 /*
 =======================================
 |   Site Template Component Styling   |
@@ -135,10 +138,12 @@ a {
 
 a:link {
     text-decoration: none; /* Do not underline the link in normal state */
+    color: wheat
 }
 
 a:visited {
     text-decoration: none; /* Do not underline the link in visited state */
+    color: gray
 }
 
 a:hover {
