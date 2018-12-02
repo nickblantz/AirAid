@@ -6,12 +6,21 @@ package com.airaid.controllers;
 
 import com.airaid.EntityBeans.UserTicket;
 import com.airaid.FacadeBeans.UserTicketFacade;
+import com.airaid.globals.Methods;
+import com.airaid.pojo.Airport;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import org.primefaces.json.JSONArray;
+import org.primefaces.json.JSONObject;
 
 /**
  *
@@ -19,15 +28,23 @@ import javax.inject.Named;
  */
 @Named("flightSearchController")
 @SessionScoped
-public class FlightSearchController implements Serializable{
+public class FlightSearchController implements Serializable {
+
     private String source, destination;
     private Date flightDate;
+    private List<Airport> airports;
     private List<UserTicket> searchedItems;
     private UserTicket selected;
-    @EJB private UserTicketFacade userTicketFacade;
-    
-    public FlightSearchController() {}
-    
+    @EJB
+    private UserTicketFacade userTicketFacade;
+
+    private final String apiKey = "e4fd36-c9487e";
+    private final String apiAirportEndpoint = "https://aviation-edge.com/v2/public/airportDatabase?key=" + apiKey + "&codeIso2Country=US";
+    private final String apiFlightEndpoint = "";
+
+    public FlightSearchController() {
+    }
+
     public String getSource() {
         return source;
     }
@@ -59,6 +76,14 @@ public class FlightSearchController implements Serializable{
     public void setSearchedItems(List<UserTicket> searchedItems) {
         this.searchedItems = searchedItems;
     }
+    
+    public List<Airport> getAirports() {
+        return airports;
+    }
+
+    public void setAirports(List<Airport> airports) {
+        this.airports = airports;
+    }
 
     public UserTicket getSelected() {
         return selected;
@@ -67,9 +92,96 @@ public class FlightSearchController implements Serializable{
     public void setSelected(UserTicket selected) {
         this.selected = selected;
     }
-    
+
     public String performSearch() {
+        System.out.println("Searching for: [Source: " + source + " Destination: " + destination + " Date: " + flightDate.toString() + "]");
         searchedItems = userTicketFacade.searchQuery(source, destination, flightDate);
         return "/flightSearch/Results?faces-redirect=true";
+    }
+    
+    @PostConstruct
+    public void initAirports() {
+        try {
+            airports = new ArrayList<>();
+            String jsonData = readUrlContent(apiAirportEndpoint);
+            JSONArray airportArray = new JSONArray(jsonData);
+            
+            for (int i = 0; i < airportArray.length(); i++) {
+                JSONObject airportData = airportArray.getJSONObject(i);
+                airports.add(new Airport(
+                        airportData.getInt("airportId"), 
+                        airportData.getString("nameAirport"),
+                        airportData.getString("codeIataAirport"),
+                        airportData.getDouble("longitudeAirport"),
+                        airportData.getDouble("latitudeAirport")));
+            }
+            
+        } catch (Exception ex) {
+            Methods.showMessage("Fatal Error", "Error in processing JSON data returned from Airport API!",
+                    "See: " + ex.getMessage());
+        }
+        
+    }
+    
+    public String readUrlContent(String webServiceURL) throws Exception {
+        /*
+        reader is an object reference pointing to an object instantiated from the BufferedReader class.
+        Currently, it is "null" pointing to nothing.
+         */
+        BufferedReader reader = null;
+
+        try {
+            // Create a URL object from the webServiceURL given
+            URL url = new URL(webServiceURL);
+            /*
+            The BufferedReader class reads text from a character-input stream, buffering characters
+            so as to provide for the efficient reading of characters, arrays, and lines.
+             */
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+
+            // Create a mutable sequence of characters and store its object reference into buffer
+            StringBuilder buffer = new StringBuilder();
+
+            // Create an array of characters of size 10240
+            char[] chars = new char[10240];
+
+            int numberOfCharactersRead;
+            /*
+            The read(chars) method of the reader object instantiated from the BufferedReader class
+            reads 10240 characters as defined by "chars" into a portion of a buffered array.
+
+            The read(chars) method attempts to read as many characters as possible by repeatedly
+            invoking the read method of the underlying stream. This iterated read continues until
+            one of the following conditions becomes true:
+
+                (1) The specified number of characters have been read, thus returning the number of characters read.
+                (2) The read method of the underlying stream returns -1, indicating end-of-file, or
+                (3) The ready method of the underlying stream returns false, indicating that further input requests would block.
+
+            If the first read on the underlying stream returns -1 to indicate end-of-file then the read(chars) method returns -1.
+            Otherwise the read(chars) method returns the number of characters actually read.
+             */
+            while ((numberOfCharactersRead = reader.read(chars)) != -1) {
+                buffer.append(chars, 0, numberOfCharactersRead);
+            }
+
+            // Return the String representation of the created buffer
+            return buffer.toString();
+
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+    
+    public List<Airport> completeText(String query) {
+        List<Airport> results = new ArrayList<>();
+        for(Airport airport : airports) {
+            if (airport.getName().contains(query)) {
+                results.add(airport);
+            }
+        }
+        return results;
     }
 }
