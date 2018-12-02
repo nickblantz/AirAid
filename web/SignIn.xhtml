@@ -48,9 +48,8 @@ Copyright © 2018 Osman Balci. All rights reserved.
                     |         SIGN IN Button       |
                     ================================
                     -->
-                    <p:commandButton id="login" value="Sign In" action="#{loginManager.redirectVerify(loginManager.username)}" 
+                    <p:commandButton id="login" value="Sign In" action="#{loginManager.redirectVerify()}" 
                                      ajax="false" icon="fas fa-sign-in-alt" >
-                        <f:actionListener binding="#{emailController.sendEmail(loginManager.username, loginManager.getRandomString())}"/>
                     </p:commandButton>
                     &nbsp;
                     <!--

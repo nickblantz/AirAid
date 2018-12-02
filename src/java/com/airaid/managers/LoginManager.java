@@ -7,13 +7,16 @@ package com.airaid.managers;
 import com.airaid.globals.Password;
 import com.airaid.EntityBeans.User;
 import com.airaid.FacadeBeans.UserFacade;
+import com.airaid.controllers.EmailController;
 import com.airaid.globals.Methods;
 
 import java.io.Serializable;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.mail.MessagingException;
 
 @Named(value = "loginManager")
 @SessionScoped
@@ -39,6 +42,8 @@ public class LoginManager implements Serializable {
     @EJB
     private UserFacade userFacade;
 
+    @Inject 
+    private EmailController emailController;
     /*
     ==================
     Constructor Method
@@ -100,7 +105,7 @@ public class LoginManager implements Serializable {
     are Valid and Redirect to Show the Profile Page
     *****************************************************
      */
-    public String loginUser() {
+    public Boolean loginUser() {
 
         // Since we will redirect to show the Profile page, invoke preserveMessages()
         Methods.preserveMessages();
@@ -113,7 +118,7 @@ public class LoginManager implements Serializable {
         if (user == null) {
             Methods.showMessage("Fatal Error", "Unknown Username!",
                     "Entered username " + enteredUsername + " does not exist!");
-            return "";
+            return false;
 
         } 
         else {
@@ -124,7 +129,7 @@ public class LoginManager implements Serializable {
 
             if (!actualUsername.equals(enteredUsername)) {
                 Methods.showMessage("Fatal Error", "Invalid Username!", "Entered Username is Unknown!");
-                return "";
+                return false;
             }
 
             //------------------------------------------------------------------------------------
@@ -138,24 +143,22 @@ public class LoginManager implements Serializable {
                     // entered password = user's actual password
                 } else {
                     Methods.showMessage("Fatal Error", "Invalid Password!", "Please Enter a Valid Password!");
-                    return "";
+                    return false;
                 }
             } catch (Password.CannotPerformOperationException | Password.InvalidHashException ex) {
 
                 Methods.showMessage("Fatal Error", "Password Manager was unable to perform its operation!",
                         "See: " + ex.getMessage());
-                return "";
+                return false;
             }
-            user.setIsVerified(true);
-            // Initialize the session map with user properties of interest
-            initializeSessionMap(user);
+
             // Redirect to show the Profile page
             if (user.getUsername().equals("Administrator"))
             {
-                return "/userAccount/AdminProfile.xhtml?faces-redirect=true";
+                return true;
             }
             this.getUserFacade().edit(user);
-            return "/userAccount/Profile.xhtml?faces-redirect=true";
+            return true;
         }
     }
     
@@ -172,13 +175,18 @@ public class LoginManager implements Serializable {
         return str.toString();
     }
     
-    public String redirectVerify(String str)
+    
+    public String redirectVerify() throws MessagingException
     {
-        User user = this.getUserFacade().findByUsername(str);
-        if (user == null)
+        boolean loggedIn = this.loginUser();
+        User user = getUserFacade().findByUsername(this.getUsername());
+        
+        if (!loggedIn)
         {
-            return this.loginUser();
+            return "";
         }
+        
+        emailController.sendEmail(this.getUsername(), this.getRandomString());
         if (user.getIsVerified())
         {
             return "/userAccount/VerifyText.xhtml?faces-redirect=true";
@@ -192,7 +200,15 @@ public class LoginManager implements Serializable {
         {
             User user = this.getUserFacade().findByUsername(str);
             user.setIsVerified(true);
-            return this.loginUser();
+            // Initialize the session map with user properties of interest
+            initializeSessionMap(user);
+            if (user.getUsername().equals("Administrator")) {
+                return "/userAccount/AdminProfile.xhtml?faces-redirect=true";
+            }
+            else 
+            {
+                return "/userAccount/Profile.xhtml?faces-redirect=true";
+            }
         }
         else
         {
