@@ -48,6 +48,10 @@ body, p {
     color: black;
 }
 
+img {
+    z-index: 0 !important;
+}
+
 /* Style standard HTML tag header 1 */
 h1 {
     font-family: Arial, Helvetica, sans-serif;
