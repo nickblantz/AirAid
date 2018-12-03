@@ -25,14 +25,14 @@ Copyright © 2018 Osman Balci. All rights reserved.
                     <h:panelGrid columns="3">
 
                         <h:outputLabel value="Source: " class="standardText"/>
-                        <p:autoComplete id="sourceBox" maxResults="5"
-                                        value="#{flightSearchController.source}" completeMethod="#{flightSearchController.completeText}" 
-                                        var="airport" itemValue="#{airport.iata}" itemLabel="#{airport.name}"/>
+                        <p:autoComplete id="sourceBox" maxResults="5" value="#{flightSearchController.source}"
+                                        completeMethod="#{flightSearchController.completeText}" converter="#{airportConverter}"
+                                        var="srcAirport" itemValue="#{srcAirport}" itemLabel="#{srcAirport.name}"/>
                         <br />
                         <h:outputLabel value="Destination: " class="standardText"/>
-                        <p:autoComplete id="destinationBox" maxResults="5"
-                                        value="#{flightSearchController.destination}" completeMethod="#{flightSearchController.completeText}" 
-                                        var="airport" itemValue="#{airport.iata}" itemLabel="#{airport.name}"/>
+                        <p:autoComplete id="destinationBox" maxResults="5" value="#{flightSearchController.destination}"
+                                        completeMethod="#{flightSearchController.completeText}" converter="#{airportConverter}" 
+                                        var="destAirport" itemValue="#{destAirport}" itemLabel="#{destAirport.name}" />
                         <br />
                         <h:outputLabel value="Flight Date: " class="standardText"/>
                         <p:calendar id="flightDate" pattern="MM/dd/yyyy" class="inputTextField" mask="true"
