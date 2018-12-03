@@ -32,88 +32,53 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                                      selectionMode="single" selection="#{flightSearchController.selected}"
                                      reflow="true"
                                      paginator="true"
-                                     rowKey="#{item.sourceName}"
+                                     rowKey="#{item.source.name}"
                                      rows="10"
                                      rowsPerPageTemplate="10,15,20,30,40,50"
                                      class="dataTable"
                                      >
 
-                            <!--<p:ajax event="rowSelect"   update="viewButton"/>
+                            <p:ajax event="rowSelect"   update="viewButton"/>
                             <p:ajax event="rowUnselect" update="viewButton"/>
-                            -->
 
-                            <!-- 
-                            Clicking the header of a column with 'sortBy' redisplays the table with that  
-                            column sorted in alphabetical order A to Z or numerically in ascending order. 
-                            Clicking it again reverses the order to Z to A or numerically in descending order.
-                            -->
-
-                            <!--
-                            ********************
-                            *    Ticket Title   *
-                            ********************
-                            -->
                             <p:column sortBy="#{item.airline}" headerText="Airline" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.airline}"/>
                             </p:column>
-                            
                             <p:column sortBy="#{item.sourceName}" headerText="Source" 
                                       style="min-width:150px;">
-                                <h:outputText value="#{item.sourceName}"/>
+                                <h:outputText value="#{item.source.name}"/>
                             </p:column>
-                            
                             <p:column sortBy="#{item.destinationName}" headerText="Destination" 
                                       style="min-width:150px;">
-                                <h:outputText value="#{item.destinationName}"/>
+                                <h:outputText value="#{item.destination.name}"/>
                             </p:column>
-                            
                             <p:column sortBy="#{item.expectedDepartureDate}" headerText="Departure Time" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.expectedDepartureDate}"/>
                             </p:column>
-                            
                             <p:column sortBy="#{item.expectedArrivalDate}" headerText="Arrival Time" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.expectedArrivalDate}"/>
                             </p:column>
-                            
                             <p:column sortBy="#{item.price}" headerText="Price" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.price}"/>
                             </p:column>
-
-                           
                             <br /><br />
 
-                            <!--
-                            The "footer" facet is defined for p:dataTable. See PrimeFaces User Guide.
-                            -->
-
                             <f:facet name="footer">
-                   
-                                <!--
-                                <p:commandButton id="viewButton"    icon="fas fa-eye" value="View Ticket" 
-                                                 update=":TicketViewForm" oncomplete="PF('TicketViewDialog').show()" 
-                                                 disabled="#{empty userTicketController.selected}"/>
-                                -->
-
-
-                            
+                                <p:commandButton id="viewButton" icon="fa fa-shopping-cart" value="Purchase Ticket" 
+                                                 update=":TicketPurchaseForm" oncomplete="PF('TicketPurchaseDialog').show()" 
+                                                 disabled="#{empty flightSearchController.selected}"/>
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
                 </h:form>
-
             </div>
-
-
             <!-- Clicking the View button displays the included View.xhtml file in a dialog box on top of this page. -->
-            <!-- <ui:include src="/allTickets/View.xhtml"/> -->
-
-
+            <ui:include src="/flightSearch/Purchase.xhtml"/>
         </ui:define>
-
     </ui:composition>
     <!-- Do not enter tags after the composition line since they are ignored by JSF -->
 

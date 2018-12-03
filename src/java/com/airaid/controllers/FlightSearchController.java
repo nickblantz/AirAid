@@ -39,7 +39,7 @@ public class FlightSearchController implements Serializable {
     private Date flightDate;
     private List<Airport> airports;
     private List<Flight> searchedItems;
-    private UserTicket selected;
+    private Flight selected;
 
     private final String apiKey = "0ed98c-7172ae";
     private final String apiAirportEndpoint = "https://aviation-edge.com/v2/public/airportDatabase?key=" + apiKey + "&codeIso2Country=US";
@@ -88,11 +88,11 @@ public class FlightSearchController implements Serializable {
         this.airports = airports;
     }
 
-    public UserTicket getSelected() {
+    public Flight getSelected() {
         return selected;
     }
 
-    public void setSelected(UserTicket selected) {
+    public void setSelected(Flight selected) {
         this.selected = selected;
     }
 
@@ -115,8 +115,7 @@ public class FlightSearchController implements Serializable {
                 if (flightData.getString("status").equals("scheduled")
                         && flightDestIaca.equals(destination.getIata()) && 
                         startDate.compareTo(expectedDepartureDate) * expectedDepartureDate.compareTo(endDate) >= 0) {
-                    searchedItems.add(new Flight(source.getName(), destination.getName(),
-                            source.getIata(), destination.getIata(),
+                    searchedItems.add(new Flight(source, destination,
                             flightData.getJSONObject("airline").getString("name"),
                             parser.parse(flightData.getJSONObject("departure").getString("scheduledTime")),
                             parser.parse(flightData.getJSONObject("arrival").getString("scheduledTime")),
