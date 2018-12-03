@@ -6,6 +6,7 @@ import com.airaid.controllers.util.JsfUtil;
 import com.airaid.controllers.util.JsfUtil.PersistAction;
 import com.airaid.FacadeBeans.UserTicketFacade;
 import com.airaid.globals.Methods;
+import java.io.IOException;
 
 
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -107,6 +109,17 @@ public class UserTicketController implements Serializable {
         return userItems;
     }
     
+    public void goToDirections () throws IOException {
+        User signedInUser = (User) Methods.sessionMap().get("user");
+        if (signedInUser != null && selected != null) {
+            String destination = selected.getSrcStreet();
+            destination = destination.replace(" ", "+");
+            String source = signedInUser.getAddress1();
+            source = source.replace(" ", "+");
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect("http://maps.google.com/maps?saddr=" + source + "&daddr=" + destination);
+        }
+    }
     
     public List<UserTicket> getFreeItems() {
         if (items == null) {
