@@ -18,12 +18,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -132,6 +132,10 @@ public class FlightSearchController implements Serializable {
                     // Mocking Data
                     Date expectedDepartureDate = edcJ.plusDays(dayDiff).toDate();
                     Date expectedArrivalDate = eadJ.plusDays(dayDiff).toDate();
+                    
+                    int price;
+                    Random ran = new Random();
+                    price = ran.nextInt(243) + 226; //prices aren't given by API, so we make up a price between 226-468
 
                     String flightDestIaca = flightData.getJSONObject("arrival").getString("iataCode");
                     if (flightData.getString("status").equals("scheduled") && flightDestIaca.equals(destination.getIata())) {
@@ -140,7 +144,7 @@ public class FlightSearchController implements Serializable {
                                 flightData.getJSONObject("airline").getString("name"),
                                 expectedDepartureDate,
                                 expectedArrivalDate,
-                                0.00));
+                                (double) price));
                     }
                     } catch (JSONException e) {
                         // Do Nothing
@@ -162,7 +166,12 @@ public class FlightSearchController implements Serializable {
         DateTime curDateJ = new DateTime(new Date());
         Date curDep = curDateJ.plusMinutes(1).toDate();
         Date curArr = curDateJ.plusHours(2).toDate();
-        searchedItems.add(new Flight("Test1234", source, destination, "AirAid - Testing", curDep, curArr, 0.00));
+        
+        int price;
+        Random ran = new Random();
+        price = ran.nextInt(243) + 226; //prices aren't given by API, so we make up a price between 226-468
+                    
+        searchedItems.add(new Flight("Test1234", source, destination, "AirAid - Testing", curDep, curArr, (double) price));
     }
 
     @PostConstruct
@@ -181,7 +190,8 @@ public class FlightSearchController implements Serializable {
                         airportData.getDouble("longitudeAirport"),
                         airportData.getDouble("latitudeAirport")));
             }
-
+        } catch (JSONException ex) {
+            // Do Nothing
         } catch (Exception ex) {
             Methods.showMessage("Fatal Error", "Error in processing JSON data returned from Airport API!",
                     "See: " + ex.getMessage());
@@ -196,12 +206,14 @@ public class FlightSearchController implements Serializable {
     }
     
     public void goToDirections () throws IOException {
+        System.out.println("goToDirections() Called");
         User signedInUser = (User) Methods.sessionMap().get("user");
         if (signedInUser != null && selected != null) {
             String destAddr = selected.getSource().getLatitude() + "," + selected.getSource().getLongitude();
             String srcAddr = signedInUser.getAddress1();
             srcAddr = srcAddr.replace(" ", "+");
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            
             externalContext.redirect("http://maps.google.com/maps?saddr=" + srcAddr + "&daddr=" + destAddr);
         }
     }
