@@ -81,6 +81,13 @@ Style the div component whose unique id is "page" per reference
     text-decoration: none;
     color: white;
 }
+.ui-widget-content {
+    background: gray;
+    color: wheat;
+}
+
+
+
 /* 
 Style the div component whose unique id is "header" per reference 
 <div id="header"> in siteTemplate
@@ -310,14 +317,14 @@ Used in Profile
 /* Style p:panelGrid Column 1 */
 .panelGridColumn1 {
     text-align: right;
-    background-color: lightgray; 
+    background-color: gray; 
     white-space: nowrap;        /* Disallow line break */
 }
 
 /* Style p:panelGrid Column 2 */
 .panelGridColumn2 {
     text-align: left;
-    background-color: lightgray; 
+    background-color: gray; 
     white-space: nowrap;        /* Disallow line break */
 }
 
@@ -396,6 +403,9 @@ Used in Profile
     vertical-align: middle;
 }
 
+.logo {
+    width: 5%;
+}
 /*
 =========================================
 |   Skinning PrimeFaces UI Components   |
