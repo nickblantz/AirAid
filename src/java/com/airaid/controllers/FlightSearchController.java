@@ -24,7 +24,6 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -191,7 +190,8 @@ public class FlightSearchController implements Serializable {
                         airportData.getDouble("longitudeAirport"),
                         airportData.getDouble("latitudeAirport")));
             }
-
+        } catch (JSONException ex) {
+            // Do Nothing
         } catch (Exception ex) {
             Methods.showMessage("Fatal Error", "Error in processing JSON data returned from Airport API!",
                     "See: " + ex.getMessage());
@@ -206,12 +206,14 @@ public class FlightSearchController implements Serializable {
     }
     
     public void goToDirections () throws IOException {
+        System.out.println("goToDirections() Called");
         User signedInUser = (User) Methods.sessionMap().get("user");
         if (signedInUser != null && selected != null) {
             String destAddr = selected.getSource().getLatitude() + "," + selected.getSource().getLongitude();
             String srcAddr = signedInUser.getAddress1();
             srcAddr = srcAddr.replace(" ", "+");
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            
             externalContext.redirect("http://maps.google.com/maps?saddr=" + srcAddr + "&daddr=" + destAddr);
         }
     }

@@ -57,6 +57,9 @@ Copyright © 2016 Nick Thompson. All rights reserved.
 
                 <h:panelGroup>
                     <div align="center">
+                        <br />
+                        <h:commandLink id="directionsButton" target="_blank" actionListener="#{flightSearchController.goToDirections()}" value="Directions to Airport" />
+                        <br />
                         <h:outputLabel value="Lead Time (Minutes):" for="leadtime" />&nbsp;
                         <p:inputText id="leadtime" value="#{alertController.pretime}" class="inputTextField" />&nbsp;
                         <p:commandButton value="Schedule Alert" action="#{alertController.createAlert()}" />
@@ -66,9 +69,6 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                         <!-- CLOSE button -->
                         <p:commandButton value="#{bundle.Close}" onclick="PF('TicketPurchaseDialog').hide()" 
                                          icon="fas fa-window-close"/>
-                        <p:commandButton id="directionsButton" icon="far fa-map" action="#{flightSearchController.goToDirections()}" value="Directions to Airport" >
-                            <p:confirm header="External Navigation" message="This will redirect you off of AirAid's website to Google Maps for the Directions to your airport" icon='fas fa-exclamation-triangle'/>
-                        </p:commandButton>
                         <p:commandButton value="Purchase Ticket" action="#{flightSearchController.purchaseTicket(flightSearchController.selected)}" onclick="PF('TicketViewDialog').hide()" 
 
                                          icon="fa fa-shopping-cart"/>
