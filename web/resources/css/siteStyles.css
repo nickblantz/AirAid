@@ -52,6 +52,10 @@ img {
     z-index: 0 !important;
 }
 
+.logo {
+    width: 50px;
+}
+
 /* Style standard HTML tag header 1 */
 h1 {
     font-family: Arial, Helvetica, sans-serif;

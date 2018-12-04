@@ -163,10 +163,9 @@ public class UserTicketController implements Serializable {
     
     public String refundTicket()
     {
-        selected.setUserId(null);
         
         /* perist so the change is updated in the database */
-        persist(PersistAction.UPDATE, "");
+        persist(PersistAction.DELETE, "");
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE (EDIT) operation is successfully performed.
             selected = null; // Remove selection
