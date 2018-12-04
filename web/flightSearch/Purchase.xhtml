@@ -43,7 +43,7 @@ Copyright © 2016 Nick Thompson. All rights reserved.
 
                         <h:outputText value="Price:"/>
                         <h:outputText value="#{flightSearchController.selected.price}"/>
-                        
+
                         <h:outputText value="Estimated Travel Time from Home to Airport:"/>
                         <h:outputText value="#{directionController.getTravelTime(userController.selected, flightSearchController.selected)}"/>
 
@@ -51,6 +51,11 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                 </h:panelGroup>
 
                 <h:panelGroup>
+                    <div align="center">
+                            <h:outputLabel value="Lead Time (Minutes):" for="leadtime" />&nbsp;
+                            <p:inputText id="leadtime" value="#{alertController.pretime}" class="inputTextField" />&nbsp;
+                            <p:commandButton value="Schedule Alert" action="#{alertController.createAlert()}" />
+                    </div>
                     <br />
                     <div align="center">
                         <!-- CLOSE button -->
@@ -61,7 +66,7 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                                          icon="fa fa-shopping-cart"/>
                     </div>
                 </h:panelGroup>
-                
+
             </h:form>
 
         </p:dialog>

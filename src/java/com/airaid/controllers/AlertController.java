@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.mail.Session;
@@ -30,7 +31,7 @@ public class AlertController {
     private String messageDateString;
     private Long pretime;
     @Inject private AlertTimer alertTimer;
-    // TODO: Alert needs to be associated with each Ticket
+    @Inject private FlightSearchController flightSearchController;
     private AlertTask alert;
     
     public AlertController() {}
@@ -85,9 +86,11 @@ public class AlertController {
     }
     
     public void createAlert() {
+        messageDate = flightSearchController.getSelected().getExpectedDepartureDate();
         User user = (User) Methods.sessionMap().get("user");
         recipientNumber = user.getPhoneNumber();
         recipientCarrier = user.getMobileCarrier();
+        messageContent = "Time to catch your flight!";
         alert = new AlertTask(recipientNumber, recipientCarrier, messageContent);
         alertTimer.scheduleAlert(alert, messageDate, pretime);
     }
