@@ -42,7 +42,7 @@ public class AlertTask extends TimerTask {
             textMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientNumber + "@" + recipientCarrierDomain));
             textMessage.setContent(messageContent, "text/plain");
             Transport transport = smtpSession.getTransport("smtp");
-            transport.connect("smtp.gmail.com", "airaid.alerting@gmail.com", "csd@VT-1872");
+            transport.connect("smtp.gmail.com", "Cloud.Software.Email@gmail.com", "csd@VT-1872");
             transport.sendMessage(textMessage, textMessage.getAllRecipients());
             transport.close();
         } catch (AddressException ae) {

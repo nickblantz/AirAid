@@ -4,12 +4,17 @@
  */
 package com.airaid.controllers;
 
+import com.airaid.EntityBeans.User;
 import com.airaid.alerting.AlertTask;
 import com.airaid.alerting.AlertTimer;
+import com.airaid.globals.Methods;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.mail.Session;
 
 /**
  *
@@ -22,6 +27,7 @@ public class AlertController {
     private String recipientCarrier;
     private String messageContent;
     private Date messageDate;
+    private String messageDateString;
     private Long pretime;
     @Inject private AlertTimer alertTimer;
     // TODO: Alert needs to be associated with each Ticket
@@ -34,6 +40,7 @@ public class AlertController {
     }
 
     public void setMessageDate(Date messageDate) {
+        System.out.println("date type");
         this.messageDate = messageDate;
     }
 
@@ -78,9 +85,30 @@ public class AlertController {
     }
     
     public void createAlert() {
+        User user = (User) Methods.sessionMap().get("user");
+        recipientNumber = user.getPhoneNumber();
+        recipientCarrier = user.getMobileCarrier();
         alert = new AlertTask(recipientNumber, recipientCarrier, messageContent);
         alertTimer.scheduleAlert(alert, messageDate, pretime);
     }
     
+    public void setPretime(String time) {
+        pretime = Long.parseLong(time);
+    }
     
+    public void setMessageDate(String date) throws ParseException {
+        System.out.println("string type");
+        SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        messageDate = parser.parse(date);
+    }
+    
+    public String getMessageDateString() {
+        return messageDateString;
+    }
+
+    public void setMessageDateString(String messageDateString) throws ParseException {
+        this.messageDateString = messageDateString;
+        SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        messageDate = parser.parse(messageDateString);
+    }
 }

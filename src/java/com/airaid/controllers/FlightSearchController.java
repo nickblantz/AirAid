@@ -100,19 +100,19 @@ public class FlightSearchController implements Serializable {
     }
 
     public Flight getSelected() {
+        if (selected != null)
+            System.out.println("getSelected: " + selected.toString());
         return selected;
     }
 
     public void setSelected(Flight selected) {
+        System.out.println("setSelected: " + selected.toString());
         this.selected = selected;
     }
     
     
     
     public String performSearch() {
-        System.out.println(apiFlightEndpoint);
-        System.out.println(source);
-        System.out.println(source.getIata());
         String flightAPIEndpoint = apiFlightEndpoint + "&iataCode=" + source.getIata() + "&type=departure";
         try {
             searchedItems = new ArrayList<>();
@@ -135,7 +135,8 @@ public class FlightSearchController implements Serializable {
                 
                 String flightDestIaca = flightData.getJSONObject("arrival").getString("iataCode");
                 if (flightData.getString("status").equals("scheduled") && flightDestIaca.equals(destination.getIata())) {
-                    searchedItems.add(new Flight(source, destination,
+                    searchedItems.add(new Flight(flightData.getJSONObject("flight").getString("iataNumber"),
+                            source, destination,
                             flightData.getJSONObject("airline").getString("name"),
                             expectedDepartureDate,
                             expectedArrivalDate,

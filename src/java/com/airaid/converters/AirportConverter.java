@@ -36,10 +36,8 @@ public class AirportConverter implements Converter, Serializable {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if (value != null && value.trim().length() > 0) {
-            System.out.println("Null check for fsc: [" + (fsc == null) + "]");
             for (Airport airport : fsc.getAirports()) {
                 if (value.equals(airport.getName()) || value.equals(airport.getIata())) {
-                    System.out.println("Found airport: [value: " + value + "]");
                     return airport;
                 }
             }

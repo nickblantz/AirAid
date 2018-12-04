@@ -4,25 +4,36 @@
  */
 package com.airaid.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Admin
  */
-public class Flight {
+public class Flight implements Serializable {
+    private String flightIata;
     private Airport source, destination;
     private String airline;
     private Date expectedDepartureDate, expectedArrivalDate;
     private Double price;
     
-    public Flight(Airport source, Airport destination, String airline, Date expectedDepartureDate, Date expectedArrivalDate, Double price) {
+    public Flight(String flightIata, Airport source, Airport destination, String airline, Date expectedDepartureDate, Date expectedArrivalDate, Double price) {
+        this.flightIata = flightIata;
         this.source = source;
         this.destination = destination;
         this.airline = airline;
         this.expectedDepartureDate = expectedDepartureDate;
         this.expectedArrivalDate = expectedArrivalDate;
         this.price = price;
+    }
+    
+    public String getFlightIata() {
+        return flightIata;
+    }
+
+    public void setFlightIata(String flightIata) {
+        this.flightIata = flightIata;
     }
 
     public Airport getSource() {
@@ -71,5 +82,9 @@ public class Flight {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+    
+    public String toString() {
+        return source.getName() + "-" + destination.getName() + " (" + expectedDepartureDate.toString() + ")";
     }
 }

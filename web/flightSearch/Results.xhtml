@@ -27,29 +27,29 @@ Copyright © 2018 Nick Thompson. All rights reserved.
 
                 <h:form id="TicketListForm">
                     <p:panel header="All Available Tickets">
-                        <!-- reflow="true" makes the dataTable Responsive, i.e., viewable on mobile devices -->
-                        <p:dataTable id="datalist" value="#{flightSearchController.getSearchedItems()}" var="item"
+                        <!-- reflow="true" makes the dataTable Responsive, i.e., viewable on mobile devices -->        
+                        <p:dataTable id="datalist" value="#{flightSearchController.searchedItems}" var="item"
                                      selectionMode="single" selection="#{flightSearchController.selected}"
                                      reflow="true"
                                      paginator="true"
-                                     rowKey="#{item.source.name}"
+                                     rowKey="#{item.flightIata}"
                                      rows="10"
                                      rowsPerPageTemplate="10,15,20,30,40,50"
                                      class="dataTable"
                                      >
 
-                            <p:ajax event="rowSelect"   update="viewButton"/>
-                            <p:ajax event="rowUnselect" update="viewButton"/>
+                            <p:ajax event="rowSelect"   update="purchaseButton"/>
+                            <p:ajax event="rowUnselect" update="purchaseButton"/>
 
                             <p:column sortBy="#{item.airline}" headerText="Airline" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.airline}"/>
                             </p:column>
-                            <p:column sortBy="#{item.sourceName}" headerText="Source" 
+                            <p:column sortBy="#{item.source.name}" headerText="Source" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.source.name}"/>
                             </p:column>
-                            <p:column sortBy="#{item.destinationName}" headerText="Destination" 
+                            <p:column sortBy="#{item.destination.name}" headerText="Destination" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.destination.name}"/>
                             </p:column>
@@ -68,8 +68,8 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                             <br /><br />
 
                             <f:facet name="footer">
-                                <p:commandButton id="viewButton" icon="fa fa-shopping-cart" value="Purchase Ticket" 
-                                                 update=":TicketListForm" oncomplete="PF('TicketPurchaseDialog').show()" 
+                                <p:commandButton id="purchaseButton" icon="fa fa-shopping-cart" value="Purchase Ticket" 
+                                                 update=":TicketPurchaseForm" oncomplete="PF('TicketPurchaseDialog').show()" 
                                                  disabled="#{empty flightSearchController.selected}"/>
                             </f:facet>
                         </p:dataTable>
