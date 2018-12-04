@@ -56,35 +56,35 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.airline}"/>
                             </p:column>
-                            
+
                             <p:column sortBy="#{item.srcName}" headerText="Source" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.srcName}"/>
                             </p:column>
-                            
+
                             <p:column sortBy="#{item.destName}" headerText="Destination" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.destName}"/>
                             </p:column>
-                            
+
                             <p:column sortBy="#{item.departureTime}" headerText="Departure Time" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.departureTime}"/>
                             </p:column>
-                            
+
                             <p:column sortBy="#{item.arrivalTime}" headerText="Arrival Time" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.arrivalTime}"/>
                             </p:column>
-                            
+
                             <p:column sortBy="#{item.price}" headerText="Price" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.price}">
-                                   <f:convertNumber type="currency" /> 
+                                    <f:convertNumber type="currency" /> 
                                 </h:outputText>
                             </p:column>
 
-                           
+
                             <br /><br />
 
                             <!--
@@ -92,19 +92,34 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                             -->
 
                             <f:facet name="footer">
-                   
+
                                 <p:commandButton id="purchaseTicketButton"    icon="fa fa-shopping-cart" value="Purchase Ticket" 
                                                  update=":TicketViewForm" 
                                                  disabled="#{empty userTicketController.selected}"
-                                                 action="#{userTicketController.purchaseticket()}"/>
+                                                 action="#{userTicketController.purchaseTicket()}">
+                                                 <p:confirm header="Purchase Ticket" 
+                                                            message="Are you sure you want to purchase the ticket from #{userTicketController.selected.srcName} to #{userTicketController.selected.destName}? The price (#{userTicketController.selected.price}0) will be charged to your account."  
+                                                            icon='fas fa-exclamation-triangle'/>
+                                </p:commandButton>
+                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" >
+                                <div align="center">
+                                    <!-- The value of the first button listed below will be shown as 
+                                    highlighted (default action) when displayed -->
+                                    <p:commandButton value="No" type="button" 
+                                                     class="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                    &nbsp;
+                                    <p:commandButton value="Yes" type="button" 
+                                                     class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                                </div>
+                            </p:confirmDialog>
                                 
-                                
+
                                 <p:commandButton id="viewButton"    icon="fas fa-eye" value="View Ticket" 
                                                  update=":TicketViewForm" oncomplete="PF('TicketViewDialog').show()" 
                                                  disabled="#{empty userTicketController.selected}"/>
 
 
-                            
+
                             </f:facet>
                         </p:dataTable>
                     </p:panel>

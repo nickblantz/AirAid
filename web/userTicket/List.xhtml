@@ -25,8 +25,8 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="directionsButton"/>
-                        <p:ajax event="rowUnselect" update="directionsButton"/>
+                        <p:ajax event="rowSelect"   update="directionsButton refundTicketButton"/>
+                        <p:ajax event="rowUnselect" update="directionsButton refundTicketButton"/>
                         
                         <p:column>
                             <f:facet name="header">
@@ -65,6 +65,27 @@
                             <h:outputText value="#{item.userId.getId()}"/>
                         </p:column>
                         <f:facet name="footer">
+                            <p:commandButton id="refundTicketButton"    icon="fa fa-shopping-cart" value="Refund Ticket" 
+                                                 update=":UserTicketListForm" 
+                                                 disabled="#{empty userTicketController.selected}"
+                                                 action="#{userTicketController.refundTicket()}">
+                                                 <p:confirm header="Refund Ticket" 
+                                                            message="Are you sure you want to refund the ticket from #{userTicketController.selected.srcName} to #{userTicketController.selected.destName}? The amount (#{userTicketController.selected.price}0) will be refunded to your account."  
+                                                            icon='fas fa-exclamation-triangle'/>
+                                </p:commandButton>
+                                <p:confirmDialog id="confirmRefund" global="true" showEffect="fade" hideEffect="fade" >
+                                <div align="center">
+                                    <!-- The value of the first button listed below will be shown as 
+                                    highlighted (default action) when displayed -->
+                                    <p:commandButton value="No" type="button" 
+                                                     class="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                    &nbsp;
+                                    <p:commandButton value="Yes" type="button" 
+                                                     class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                                </div>
+                            </p:confirmDialog>
+                            
+                            
                             <p:commandButton id="directionsButton" icon="far fa-map" action="#{userTicketController.goToDirections()}" value="Directions to Airport" disabled="#{empty userTicketController.selected}">
                                 <p:confirm header="External Navigation" message="This will redirect you off of AirAid's website to Google Maps for the Directions to your airport" icon='fas fa-exclamation-triangle'/>
                             </p:commandButton>
