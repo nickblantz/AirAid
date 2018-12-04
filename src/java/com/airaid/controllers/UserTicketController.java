@@ -147,10 +147,25 @@ public class UserTicketController implements Serializable {
         return available;
     }
     
-    public String purchaseticket()
+    public String purchaseTicket()
     {
         User signedInUser = (User) Methods.sessionMap().get("user");
         selected.setUserId(signedInUser);
+        
+        /* perist so the change is updated in the database */
+        persist(PersistAction.UPDATE, "");
+        if (!JsfUtil.isValidationFailed()) {
+            // No JSF validation error. The UPDATE (EDIT) operation is successfully performed.
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+        
+        return "/userTicket/List.xhtml?faces-redirect=true";
+    }
+    
+    public String refundTicket()
+    {
+        selected.setUserId(null);
         
         /* perist so the change is updated in the database */
         persist(PersistAction.UPDATE, "");
