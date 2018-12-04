@@ -321,6 +321,18 @@ Used in Profile
     white-space: nowrap;        /* Disallow line break */
 }
 
+.otherPanelGridColumn1 {
+    text-align: right;
+    background-color: lightgray;
+    white-space: nowrap;        /* Disallow line break */
+}
+
+.otherPanelGridColumn2 {
+    text-align: left;
+    background-color: lightgray;   
+    white-space: nowrap;        /* Disallow line break */
+}
+
 /* Style heading text used in About and UserGuide */
 .heading {
     font-family: Arial, Helvetica, sans-serif;
