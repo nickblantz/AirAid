@@ -96,10 +96,15 @@ public class PasswordResetManager implements Serializable {
 
         // Obtain the object reference of the User object with username
         User user = getUserFacade().findByUsername(username);
-
+        User userFromMap = (User) Methods.sessionMap().get("user");
+        
         if (user == null) {
             Methods.showMessage("Fatal Error", "Unknown Username!",
                     "Entered username " + username + " does not exist!");
+            return "";
+        } else if (!userFromMap.getUsername().equals(username)) {
+            Methods.showMessage("Fatal Error", "Incorrect Username",
+                    "The username entered is not your own!");
             return "";
         } else {
             // Redirect to show the SecurityQuestion page
@@ -144,7 +149,7 @@ public class PasswordResetManager implements Serializable {
         if (actualSecurityAnswer.equals(enteredSecurityAnswer)) {
             /*
             Answer to the security question is correct. Redirect to show the ResetPassword page.
-            */
+             */
             return "/userPasswordChange/ResetPassword?faces-redirect=true";
 
         } else {
@@ -181,7 +186,7 @@ public class PasswordResetManager implements Serializable {
         ***************************************************
         |   Password and Confirm Password are Validated   |
         ***************************************************
-        */
+         */
         // Since we will redirect to show the home page, invoke preserveMessages()
         Methods.preserveMessages();
 
