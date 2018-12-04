@@ -41,26 +41,27 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                             <p:ajax event="rowSelect"   update="purchaseButton"/>
                             <p:ajax event="rowUnselect" update="purchaseButton"/>
 
-                            <p:column sortBy="#{item.airline}" headerText="Airline" 
-                                      style="min-width:150px;">
-                                <h:outputText value="#{item.airline}"/>
-                            </p:column>
-                            <p:column sortBy="#{item.source.name}" headerText="Source" 
+                            <p:column sortBy="#{item.source.name}" headerText="Source Airport" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.source.name}"/>
-                            </p:column>
-                            <p:column sortBy="#{item.destination.name}" headerText="Destination" 
-                                      style="min-width:150px;">
-                                <h:outputText value="#{item.destination.name}"/>
                             </p:column>
                             <p:column sortBy="#{item.expectedDepartureDate}" headerText="Departure Time" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.expectedDepartureDate}"/>
                             </p:column>
+                            <p:column sortBy="#{item.destination.name}" headerText="Destination Airport" 
+                                      style="min-width:150px;">
+                                <h:outputText value="#{item.destination.name}"/>
+                            </p:column>
                             <p:column sortBy="#{item.expectedArrivalDate}" headerText="Arrival Time" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.expectedArrivalDate}"/>
                             </p:column>
+                            <p:column sortBy="#{item.airline}" headerText="Airline" 
+                                      style="min-width:150px;">
+                                <h:outputText value="#{item.airline}"/>
+                            </p:column>
+                            
                             <!--p:column sortBy="#{item.price}" headerText="Price" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.price}"/>

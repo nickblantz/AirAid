@@ -38,9 +38,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Departure Time"/>
                             </f:facet>
-                            <h:outputText value="#{item.departureTime}">
-                                <f:convertDateTime pattern="MM/dd/yyyy 'at' HH:mm:ss"/>
-                            </h:outputText>
+                            <h:outputText value="#{item.departureTime}"/>
                         </p:column>                        
                         <p:column>
                             <f:facet name="header">
@@ -52,9 +50,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Arrival Time"/>
                             </f:facet>
-                            <h:outputText value="#{item.arrivalTime}">
-                                <f:convertDateTime pattern="MM/dd/yyyy 'at' HH:mm:ss"/>
-                            </h:outputText>
+                            <h:outputText value="#{item.arrivalTime}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
