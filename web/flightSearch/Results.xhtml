@@ -28,7 +28,7 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                 <h:form id="TicketListForm">
                     <p:panel header="All Available Tickets">
                         <!-- reflow="true" makes the dataTable Responsive, i.e., viewable on mobile devices -->
-                        <p:dataTable id="datalist" value="#{flightSearchController.searchedItems}" var="item"
+                        <p:dataTable id="datalist" value="#{flightSearchController.getSearchedItems()}" var="item"
                                      selectionMode="single" selection="#{flightSearchController.selected}"
                                      reflow="true"
                                      paginator="true"
@@ -69,7 +69,7 @@ Copyright © 2018 Nick Thompson. All rights reserved.
 
                             <f:facet name="footer">
                                 <p:commandButton id="viewButton" icon="fa fa-shopping-cart" value="Purchase Ticket" 
-                                                 update=":TicketPurchaseForm" oncomplete="PF('TicketPurchaseDialog').show()" 
+                                                 update=":TicketListForm" oncomplete="PF('TicketPurchaseDialog').show()" 
                                                  disabled="#{empty flightSearchController.selected}"/>
                             </f:facet>
                         </p:dataTable>

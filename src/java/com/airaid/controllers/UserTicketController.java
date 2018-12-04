@@ -86,15 +86,13 @@ public class UserTicketController implements Serializable {
 
     public List<UserTicket> getItems() {
         if (items == null) {
-            items = getFacade().findAll();
+        items = getFacade().findAll();
         }
         return items;
     }
 
     public List<UserTicket> getUsersItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         User signedInUser = (User) Methods.sessionMap().get("user");
         userItems = new ArrayList();
         items.forEach(entry -> {

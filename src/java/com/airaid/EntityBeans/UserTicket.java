@@ -104,7 +104,7 @@ public class UserTicket implements Serializable {
         this.id = id;
     }
 
-    public UserTicket(Integer id, Date departureTime, Date arrivalTime, String srcName, String destName, double srcLongitude, double srcLatitude, String srcStreet, String airline, float price) {
+    public UserTicket(Integer id, Date departureTime, Date arrivalTime, String srcName, String destName, double srcLongitude, double srcLatitude, String srcStreet, String airline, float price, User user) {
         this.id = id;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
@@ -115,6 +115,20 @@ public class UserTicket implements Serializable {
         this.srcStreet = srcStreet;
         this.airline = airline;
         this.price = price;
+        this.userId = user;
+    }
+    
+    public UserTicket(Date departureTime, Date arrivalTime, String srcName, String destName, double srcLongitude, double srcLatitude, String srcStreet, String airline, float price, User user) {
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.srcName = srcName;
+        this.destName = destName;
+        this.srcLongitude = srcLongitude;
+        this.srcLatitude = srcLatitude;
+        this.srcStreet = srcStreet;
+        this.airline = airline;
+        this.price = price;
+        this.userId = user;
     }
 
     public Integer getId() {

@@ -4,6 +4,7 @@
  */
 package com.airaid.controllers;
 
+import com.airaid.EntityBeans.User;
 import com.airaid.EntityBeans.UserTicket;
 import com.airaid.FacadeBeans.UserTicketFacade;
 import com.airaid.globals.Methods;
@@ -40,8 +41,10 @@ public class FlightSearchController implements Serializable {
     private List<Airport> airports;
     private List<Flight> searchedItems;
     private Flight selected;
+    @EJB
+    private UserTicketFacade userTicketFacade;
 
-    private final String apiKey = "0ed98c-7172ae";
+    private final String apiKey = "ddb591-2e18da";
     private final String apiAirportEndpoint = "https://aviation-edge.com/v2/public/airportDatabase?key=" + apiKey + "&codeIso2Country=US";
     private final String apiFlightEndpoint = "https://aviation-edge.com/v2/public/timetable?key=" + apiKey;
 
@@ -54,6 +57,14 @@ public class FlightSearchController implements Serializable {
 
     public void setSource(Airport source) {
         this.source = source;
+    }
+
+    public UserTicketFacade getUserTicketFacade() {
+        return userTicketFacade;
+    }
+
+    public void setUserTicketFacade(UserTicketFacade userTicketFacade) {
+        this.userTicketFacade = userTicketFacade;
     }
 
     public Airport getDestination() {
@@ -95,8 +106,13 @@ public class FlightSearchController implements Serializable {
     public void setSelected(Flight selected) {
         this.selected = selected;
     }
-
+    
+    
+    
     public String performSearch() {
+        System.out.println(apiFlightEndpoint);
+        System.out.println(source);
+        System.out.println(source.getIata());
         String flightAPIEndpoint = apiFlightEndpoint + "&iataCode=" + source.getIata() + "&type=departure";
         try {
             searchedItems = new ArrayList<>();
@@ -105,13 +121,11 @@ public class FlightSearchController implements Serializable {
 
             for (int i = 0; i < flightArray.length(); i++) {
                 JSONObject flightData = flightArray.getJSONObject(i);
-                System.out.println(flightData.toString());
                 SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                 Date expectedDepartureDate = parser.parse(flightData.getJSONObject("departure").getString("scheduledTime"));
                 String flightDestIaca = flightData.getJSONObject("arrival").getString("iataCode");
                 Date startDate = flightDate;
                 Date endDate = new Date(flightDate.getTime() + 1 * 24 * 60 * 60 * 1000);
-                System.out.println(flightData.getString("status") + " == scheduled && " + flightDestIaca + " == " + destination.getIata());
                 if (flightData.getString("status").equals("scheduled")
                         && flightDestIaca.equals(destination.getIata()) && 
                         startDate.compareTo(expectedDepartureDate) * expectedDepartureDate.compareTo(endDate) >= 0) {
@@ -152,6 +166,13 @@ public class FlightSearchController implements Serializable {
                     "See: " + ex.getMessage());
         }
 
+    }
+    
+    public void purchaseTicket(Flight input)
+    {
+        User user = (User) Methods.sessionMap().get("user");
+        UserTicket newTicket = new UserTicket(input.getExpectedDepartureDate(), input.getExpectedArrivalDate(), input.getSource().getName(), input.getDestination().getIata(), input.getSource().getLongitude(), input.getSource().getLatitude(), input.getDestination().getName(), input.getAirline(), input.getPrice().floatValue(), user);
+        userTicketFacade.create(newTicket);
     }
 
     public String readUrlContent(String webServiceURL) throws Exception {

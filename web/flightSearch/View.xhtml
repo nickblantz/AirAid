@@ -17,10 +17,10 @@ Copyright © 2016 Nick Thompson. All rights reserved.
         |  for the user to view the selected ticket's data.       |
         ==========================================================
         -->
-        <p:dialog id="TicketPurchaseDlg" widgetVar="TicketPurchaseDialog" modal="true" 
-                  resizable="false" appendTo="@(body)" header="Ticket Purchase Menu">
+        <p:dialog id="TicketViewDlg" widgetVar="TicketViewDialog" modal="true" 
+                  resizable="false" appendTo="@(body)" header="Ticket Info">
 
-            <h:form id="TicketPurchaseForm" class="ui-datatable-data">
+            <h:form id="TicketViewForm" class="ui-datatable-data">
 
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" 
@@ -32,8 +32,8 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                         <h:outputText value="Source Name:"/>
                         <h:outputText value="#{flightSearchController.selected.source.name}"/>
 
-                        <!--<h:outputText value="Source Address:"/>
-                        <h:outputText value="#{flightSearchController.selected.srcStreet}"/>-->
+                        <h:outputText value="Source Address:"/>
+                        <h:outputText value="#{flightSearchController.selected.destination.iata}"/>
 
                         <h:outputText value="Source Longitude:"/>
                         <h:outputText value="#{flightSearchController.selected.source.longitude}"/>
@@ -45,10 +45,10 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                         <h:outputText value="#{flightSearchController.selected.destination.name}"/>
 
                         <h:outputText value="Departure Time:"/>
-                        <h:outputText value="#{flightSearchController.selected.expectedDepartureDate}"/>
+                        <h:outputText value="#{flightSearchController.selected.departureTime}"/>
 
                         <h:outputText value="Arrival Time:"/>
-                        <h:outputText value="#{flightSearchController.selected.expectedArrivalDate}"/>
+                        <h:outputText value="#{flightSearchController.selected.arrivalTime}"/>
 
                         <h:outputText value="Price:"/>
                         <h:outputText value="#{flightSearchController.selected.price}"/>
@@ -63,12 +63,9 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                         <p:commandButton value="#{bundle.Close}" onclick="PF('TicketViewDialog').hide()" 
 
                                          icon="fas fa-window-close"/>
-                        <p:commandButton value="Purchase Ticket" action="#{flightSearchController.purchaseTicket(flightSearchController.selected)}" onclick="PF('TicketViewDialog').hide()" 
-
-                                         icon="fa fa-shopping-cart"/>
                     </div>
                 </h:panelGroup>
-                
+
             </h:form>
 
         </p:dialog>
