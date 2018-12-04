@@ -57,15 +57,18 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.expectedArrivalDate}"/>
                             </p:column>
+                            <p:column sortBy="#{item.price}" headerText="Price" 
+                                      style="min-width:150px;">
+                                <h:outputText value="#{item.price}">
+                                    <f:convertNumber currencySymbol="$" type="currency" />
+                                </h:outputText>
+                            </p:column>
                             <p:column sortBy="#{item.airline}" headerText="Airline" 
                                       style="min-width:150px;">
                                 <h:outputText value="#{item.airline}"/>
                             </p:column>
-                            
-                            <!--p:column sortBy="#{item.price}" headerText="Price" 
-                                      style="min-width:150px;">
-                                <h:outputText value="#{item.price}"/>
-                            </p:column-->
+
+
                             <br /><br />
 
                             <f:facet name="footer">

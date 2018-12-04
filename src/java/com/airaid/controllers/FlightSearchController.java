@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -132,6 +133,10 @@ public class FlightSearchController implements Serializable {
                     // Mocking Data
                     Date expectedDepartureDate = edcJ.plusDays(dayDiff).toDate();
                     Date expectedArrivalDate = eadJ.plusDays(dayDiff).toDate();
+                    
+                    int price;
+                    Random ran = new Random();
+                    price = ran.nextInt(243) + 226; //prices aren't given by API, so we make up a price between 226-468
 
                     String flightDestIaca = flightData.getJSONObject("arrival").getString("iataCode");
                     if (flightData.getString("status").equals("scheduled") && flightDestIaca.equals(destination.getIata())) {
@@ -140,7 +145,7 @@ public class FlightSearchController implements Serializable {
                                 flightData.getJSONObject("airline").getString("name"),
                                 expectedDepartureDate,
                                 expectedArrivalDate,
-                                0.00));
+                                (double) price));
                     }
                     } catch (JSONException e) {
                         // Do Nothing
@@ -162,7 +167,12 @@ public class FlightSearchController implements Serializable {
         DateTime curDateJ = new DateTime(new Date());
         Date curDep = curDateJ.plusMinutes(1).toDate();
         Date curArr = curDateJ.plusHours(2).toDate();
-        searchedItems.add(new Flight("Test1234", source, destination, "AirAid - Testing", curDep, curArr, 0.00));
+        
+        int price;
+        Random ran = new Random();
+        price = ran.nextInt(243) + 226; //prices aren't given by API, so we make up a price between 226-468
+                    
+        searchedItems.add(new Flight("Test1234", source, destination, "AirAid - Testing", curDep, curArr, (double) price));
     }
 
     @PostConstruct
