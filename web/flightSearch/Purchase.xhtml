@@ -64,6 +64,9 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                         <!-- CLOSE button -->
                         <p:commandButton value="#{bundle.Close}" onclick="PF('TicketPurchaseDialog').hide()" 
                                          icon="fas fa-window-close"/>
+                        <p:commandButton id="directionsButton" icon="far fa-map" action="#{flightSearchController.goToDirections()}" value="Directions to Airport" >
+                                <p:confirm header="External Navigation" message="This will redirect you off of AirAid's website to Google Maps for the Directions to your airport" icon='fas fa-exclamation-triangle'/>
+                            </p:commandButton>
                         <p:commandButton value="Purchase Ticket" action="#{flightSearchController.purchaseTicket(flightSearchController.selected)}" onclick="PF('TicketViewDialog').hide()" 
 
                                          icon="fa fa-shopping-cart"/>

@@ -11,6 +11,7 @@ import com.airaid.globals.Methods;
 import com.airaid.pojo.Airport;
 import com.airaid.pojo.Flight;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URL;
@@ -20,6 +21,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.joda.time.DateTime;
@@ -27,6 +30,7 @@ import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.primefaces.json.JSONArray;
+import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 
 /**
@@ -45,7 +49,7 @@ public class FlightSearchController implements Serializable {
     @EJB
     private UserTicketFacade userTicketFacade;
 
-    private final String apiKey = "267250-e8c0d1";
+    private final String apiKey = "6bd961-bbc2d3";
     private final String apiAirportEndpoint = "https://aviation-edge.com/v2/public/airportDatabase?key=" + apiKey + "&codeIso2Country=US";
     private final String apiFlightEndpoint = "https://aviation-edge.com/v2/public/timetable?key=" + apiKey;
 
@@ -101,14 +105,10 @@ public class FlightSearchController implements Serializable {
     }
 
     public Flight getSelected() {
-        if (selected != null) {
-            System.out.println("getSelected: " + selected.toString());
-        }
         return selected;
     }
 
     public void setSelected(Flight selected) {
-        System.out.println("setSelected: " + selected.toString());
         this.selected = selected;
     }
 
@@ -118,31 +118,35 @@ public class FlightSearchController implements Serializable {
             searchedItems = new ArrayList<>();
             String jsonData = readUrlContent(flightAPIEndpoint);
             JSONArray flightArray = new JSONArray(jsonData);
-
             for (int i = 0; i < flightArray.length(); i++) {
-                JSONObject flightData = flightArray.getJSONObject(i);
+                try {
+                    JSONObject flightData = flightArray.getJSONObject(i);
 
-                // Creates Joda DateTime objects to find difference
-                DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-                DateTime edcJ = parser.parseDateTime(flightData.getJSONObject("departure").getString("scheduledTime"));
-                DateTime eadJ = parser.parseDateTime(flightData.getJSONObject("arrival").getString("scheduledTime"));
-                DateTime fligtDateJ = new DateTime(flightDate);
-                int dayDiff = Days.daysBetween(edcJ, fligtDateJ).getDays() + 1;
+                    // Creates Joda DateTime objects to find difference
+                    DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                    DateTime edcJ = parser.parseDateTime(flightData.getJSONObject("departure").getString("scheduledTime"));
+                    DateTime eadJ = parser.parseDateTime(flightData.getJSONObject("arrival").getString("scheduledTime"));
+                    DateTime fligtDateJ = new DateTime(flightDate);
+                    int dayDiff = Days.daysBetween(edcJ, fligtDateJ).getDays() + 1;
 
-                // Mocking Data
-                Date expectedDepartureDate = edcJ.plusDays(dayDiff).toDate();
-                Date expectedArrivalDate = eadJ.plusDays(dayDiff).toDate();
+                    // Mocking Data
+                    Date expectedDepartureDate = edcJ.plusDays(dayDiff).toDate();
+                    Date expectedArrivalDate = eadJ.plusDays(dayDiff).toDate();
 
-                String flightDestIaca = flightData.getJSONObject("arrival").getString("iataCode");
-                if (flightData.getString("status").equals("scheduled") && flightDestIaca.equals(destination.getIata())) {
-                    searchedItems.add(new Flight(flightData.getJSONObject("flight").getString("iataNumber"),
-                            source, destination,
-                            flightData.getJSONObject("airline").getString("name"),
-                            expectedDepartureDate,
-                            expectedArrivalDate,
-                            0.00));
+                    String flightDestIaca = flightData.getJSONObject("arrival").getString("iataCode");
+                    if (flightData.getString("status").equals("scheduled") && flightDestIaca.equals(destination.getIata())) {
+                        searchedItems.add(new Flight(flightData.getJSONObject("flight").getString("iataNumber"),
+                                source, destination,
+                                flightData.getJSONObject("airline").getString("name"),
+                                expectedDepartureDate,
+                                expectedArrivalDate,
+                                0.00));
+                    }
+                    } catch (JSONException e) {
+                        // Do Nothing
+                    }
                 }
-            }
+            
 
             // Creating mock flight for testing purposes
             createMockTestingFlight();
@@ -156,7 +160,7 @@ public class FlightSearchController implements Serializable {
 
     private void createMockTestingFlight() {
         DateTime curDateJ = new DateTime(new Date());
-        Date curDep = curDateJ.plusMinutes(3).toDate();
+        Date curDep = curDateJ.plusMinutes(1).toDate();
         Date curArr = curDateJ.plusHours(2).toDate();
         searchedItems.add(new Flight("Test1234", source, destination, "AirAid - Testing", curDep, curArr, 0.00));
     }
@@ -187,8 +191,19 @@ public class FlightSearchController implements Serializable {
 
     public void purchaseTicket(Flight input) {
         User user = (User) Methods.sessionMap().get("user");
-        UserTicket newTicket = new UserTicket(input.getExpectedDepartureDate(), input.getExpectedArrivalDate(), input.getSource().getName(), input.getDestination().getIata(), input.getSource().getLongitude(), input.getSource().getLatitude(), input.getDestination().getName(), input.getAirline(), input.getPrice().floatValue(), user);
+        UserTicket newTicket = new UserTicket(input.getExpectedDepartureDate(), input.getExpectedArrivalDate(), input.getSource().getName(), input.getDestination().getName(), input.getSource().getLongitude(), input.getSource().getLatitude(), input.getDestination().getName(), input.getAirline(), input.getPrice().floatValue(), user);
         userTicketFacade.create(newTicket);
+    }
+    
+    public void goToDirections () throws IOException {
+        User signedInUser = (User) Methods.sessionMap().get("user");
+        if (signedInUser != null && selected != null) {
+            String destAddr = selected.getSource().getLatitude() + "," + selected.getSource().getLongitude();
+            String srcAddr = signedInUser.getAddress1();
+            srcAddr = srcAddr.replace(" ", "+");
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect("http://maps.google.com/maps?saddr=" + srcAddr + "&daddr=" + destAddr);
+        }
     }
 
     public String readUrlContent(String webServiceURL) throws Exception {

@@ -29,7 +29,7 @@ public class AlertController {
     private String messageContent;
     private Date messageDate;
     private String messageDateString;
-    private Long pretime;
+    private Long pretime = 0L;
     @Inject private AlertTimer alertTimer;
     @Inject private FlightSearchController flightSearchController;
     private AlertTask alert;
@@ -50,7 +50,11 @@ public class AlertController {
     }
 
     public void setPretime(Long pretime) {
-        this.pretime = pretime;
+        if (pretime == null) {
+            this.pretime = 0L;
+        }
+        this.pretime = pretime * 60000;
+        System.out.print("Long setting pretime: " + pretime);
     }
     
     public String getRecipientNumber() {
@@ -82,7 +86,7 @@ public class AlertController {
         recipientCarrier = null;
         messageContent = null;
         messageDate = null;
-        pretime = null;
+        pretime = 0L;
     }
     
     public void createAlert() {
@@ -96,7 +100,8 @@ public class AlertController {
     }
     
     public void setPretime(String time) {
-        pretime = Long.parseLong(time);
+        pretime = Long.parseLong(time) * 60000;
+        System.out.print("String setting pretime: " + pretime);
     }
     
     public void setMessageDate(String date) throws ParseException {

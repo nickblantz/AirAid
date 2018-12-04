@@ -4,11 +4,13 @@
  */
 package com.airaid.pojo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Admin
  */
-public class Airport {
+public class Airport implements Serializable {
     private int id;
     private String name;
     private String iata;
