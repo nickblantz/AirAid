@@ -78,7 +78,7 @@
                                              disabled="#{empty userTicketController.selected}"
                                              action="#{userTicketController.refundTicket()}">
                                 <p:confirm header="Refund Ticket" 
-                                           message="Are you sure you want to refund the ticket from #{userTicketController.selected.srcName} to #{userTicketController.selected.destName}? The amount ($#{userTicketController.selected.price}0) will be refunded to your account."  
+                                           message="Are you sure you want to refund the ticket from #{userTicketController.selected.srcName} to #{userTicketController.selected.destName}? The ticket price will be refunded to your account."  
                                            icon='fas fa-exclamation-triangle'/>
                             </p:commandButton>
                             <p:confirmDialog id="confirmRefund" global="true" showEffect="fade" hideEffect="fade" >

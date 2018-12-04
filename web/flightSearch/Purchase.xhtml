@@ -23,7 +23,7 @@ Copyright © 2016 Nick Thompson. All rights reserved.
             <h:form id="TicketPurchaseForm" class="ui-datatable-data">
 
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" 
+                    <p:panelGrid columns="2" style="margin: 0 auto;" columnClasses="panelGridColumn1, panelGridColumn2" 
                                  rendered="#{flightSearchController.selected != null}">
 
                         <h:outputText value="Airline:"/>
@@ -41,11 +41,14 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                         <h:outputText value="Arrival Time:"/>
                         <h:outputText value="#{flightSearchController.selected.expectedArrivalDate}"/>
 
+                        <!--
                         <h:outputText value="Price:"/>
                         <h:outputText value="#{flightSearchController.selected.price}"/>
 
+                        
                         <h:outputText value="Estimated Travel Time from Home to Airport:"/>
                         <h:outputText value="#{directionController.getTravelTime(userController.selected, flightSearchController.selected)}"/>
+                        -->
 
                     </p:panelGrid>
                 </h:panelGroup>
