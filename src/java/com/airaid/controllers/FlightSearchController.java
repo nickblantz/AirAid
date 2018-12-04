@@ -49,7 +49,7 @@ public class FlightSearchController implements Serializable {
     @EJB
     private UserTicketFacade userTicketFacade;
 
-    private final String apiKey = "6bd961-bbc2d3";
+    private final String apiKey = "83096d-1862c4";
     private final String apiAirportEndpoint = "https://aviation-edge.com/v2/public/airportDatabase?key=" + apiKey + "&codeIso2Country=US";
     private final String apiFlightEndpoint = "https://aviation-edge.com/v2/public/timetable?key=" + apiKey;
 

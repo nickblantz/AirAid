@@ -24,8 +24,8 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <!--p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/-->
+                        <p:ajax event="rowSelect"   update="refundTicketButton"/>
+                        <p:ajax event="rowUnselect" update="refundTicketButton"/>
                         
                         <p:column headerText="User Photo" style="text-align:center; width:50px;">
                             <p:graphicImage cache="false" class="smallProfilePhoto" value="#{userController.getUserPhoto(item.userId)}"/>
@@ -84,6 +84,25 @@
                         
                         
                         <f:facet name="footer">
+                            <p:commandButton id="refundTicketButton"    icon="fa fa-shopping-cart" value="Refund Ticket" 
+                                             update=":UserTicketListForm" 
+                                             disabled="#{empty userTicketController.selected}"
+                                             action="#{userTicketController.adminRefundTicket()}">
+                                <p:confirm header="Refund Ticket" 
+                                           message="Are you sure you want to refund the ticket from #{userTicketController.selected.srcName} to #{userTicketController.selected.destName}? The ticket price ($#{userTicketController.selected.price}0) will be refunded to the users account."  
+                                           icon='fas fa-exclamation-triangle'/>
+                            </p:commandButton>
+                            <p:confirmDialog id="confirmRefund" global="true" showEffect="fade" hideEffect="fade" >
+                                <div align="center">
+                                    <!-- The value of the first button listed below will be shown as 
+                                    highlighted (default action) when displayed -->
+                                    <p:commandButton value="No" type="button" 
+                                                     class="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                    &nbsp;
+                                    <p:commandButton value="Yes" type="button" 
+                                                     class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                                </div>
+                            </p:confirmDialog>
                             <!--p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{userTicketController.prepareCreate}" update=":UserTicketCreateForm" oncomplete="PF('UserTicketCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UserTicketViewForm" oncomplete="PF('UserTicketViewDialog').show()" disabled="#{empty userTicketController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UserTicketEditForm" oncomplete="PF('UserTicketEditDialog').show()" disabled="#{empty userTicketController.selected}"/>

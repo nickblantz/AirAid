@@ -175,6 +175,20 @@ public class UserTicketController implements Serializable {
         return "/userTicket/List.xhtml?faces-redirect=true";
     }
     
+    public String adminRefundTicket()
+    {
+        
+        /* perist so the change is updated in the database */
+        persist(PersistAction.DELETE, "");
+        if (!JsfUtil.isValidationFailed()) {
+            // No JSF validation error. The UPDATE (EDIT) operation is successfully performed.
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+        
+        return "/adminTickets/List.xhtml?faces-redirect=true";
+    }
+    
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
