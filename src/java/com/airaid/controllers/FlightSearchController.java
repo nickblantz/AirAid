@@ -14,17 +14,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
@@ -44,7 +44,7 @@ public class FlightSearchController implements Serializable {
     @EJB
     private UserTicketFacade userTicketFacade;
 
-    private final String apiKey = "ddb591-2e18da";
+    private final String apiKey = "267250-e8c0d1";
     private final String apiAirportEndpoint = "https://aviation-edge.com/v2/public/airportDatabase?key=" + apiKey + "&codeIso2Country=US";
     private final String apiFlightEndpoint = "https://aviation-edge.com/v2/public/timetable?key=" + apiKey;
 
@@ -121,18 +121,24 @@ public class FlightSearchController implements Serializable {
 
             for (int i = 0; i < flightArray.length(); i++) {
                 JSONObject flightData = flightArray.getJSONObject(i);
-                SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-                Date expectedDepartureDate = parser.parse(flightData.getJSONObject("departure").getString("scheduledTime"));
+                
+                // Creates Joda DateTime objects to find difference
+                DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                DateTime edcJ = parser.parseDateTime(flightData.getJSONObject("departure").getString("scheduledTime"));
+                DateTime eadJ = parser.parseDateTime(flightData.getJSONObject("arrival").getString("scheduledTime"));
+                DateTime fligtDateJ = new DateTime(flightDate);
+                int dayDiff = Days.daysBetween(edcJ, fligtDateJ).getDays() + 1;
+                
+                // Mocking Data
+                Date expectedDepartureDate = edcJ.plusDays(dayDiff).toDate();
+                Date expectedArrivalDate = eadJ.plusDays(dayDiff).toDate();
+                
                 String flightDestIaca = flightData.getJSONObject("arrival").getString("iataCode");
-                Date startDate = flightDate;
-                Date endDate = new Date(flightDate.getTime() + 1 * 24 * 60 * 60 * 1000);
-                if (flightData.getString("status").equals("scheduled")
-                        && flightDestIaca.equals(destination.getIata()) && 
-                        startDate.compareTo(expectedDepartureDate) * expectedDepartureDate.compareTo(endDate) >= 0) {
+                if (flightData.getString("status").equals("scheduled") && flightDestIaca.equals(destination.getIata())) {
                     searchedItems.add(new Flight(source, destination,
                             flightData.getJSONObject("airline").getString("name"),
-                            parser.parse(flightData.getJSONObject("departure").getString("scheduledTime")),
-                            parser.parse(flightData.getJSONObject("arrival").getString("scheduledTime")),
+                            expectedDepartureDate,
+                            expectedArrivalDate,
                             0.00));
                 }
             }

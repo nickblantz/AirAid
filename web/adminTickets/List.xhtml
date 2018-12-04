@@ -26,33 +26,59 @@
 
                         <!--p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/-->
+                        
                         <p:column headerText="User Photo" style="text-align:center; width:50px;">
-                            <p:graphicImage cache="false" class="smallProfilePhoto" value="#{userController.getUserPhoto(item)}"/>
+                            <p:graphicImage cache="false" class="smallProfilePhoto" value="#{userController.getUserPhoto(item.userId)}"/>
                         </p:column>
+                        
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUserTicketTitle_sourceAirport}"/>
                             </f:facet>
                             <h:outputText value="#{item.srcName}"/>
                         </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Departure Time"/>
+                            </f:facet>
+                            <h:outputText value="#{item.departureTime}">
+                                <f:convertDateTime pattern="MM/dd/yyyy 'at' HH:mm:ss"/>
+                            </h:outputText>
+                        </p:column>
+                        
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUserTicketTitle_destinationAirport}"/>
                             </f:facet>
                             <h:outputText value="#{item.destName}"/>
                         </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Arrival Time"/>
+                            </f:facet>
+                            <h:outputText value="#{item.arrivalTime}">
+                                <f:convertDateTime pattern="MM/dd/yyyy 'at' HH:mm:ss"/>
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Airline"/>
+                            </f:facet>
+                            <h:outputText value="#{item.airline}"/>
+                        </p:column>
+                        
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUserTicketTitle_price}"/>
                             </f:facet>
-                            <h:outputText value="#{item.price}"/>
+                            <h:outputText value="#{item.price}">
+                                    <f:convertNumber type="currency" /> 
+                                </h:outputText>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUserTicketTitle_userId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.userId}"/>
-                        </p:column>
+                        
                         <f:facet name="footer">
                             <!--p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{userTicketController.prepareCreate}" update=":UserTicketCreateForm" oncomplete="PF('UserTicketCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UserTicketViewForm" oncomplete="PF('UserTicketViewDialog').show()" disabled="#{empty userTicketController.selected}"/>
