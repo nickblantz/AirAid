@@ -32,15 +32,6 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                         <h:outputText value="Source Name:"/>
                         <h:outputText value="#{flightSearchController.selected.source.name}"/>
 
-                        <!--<h:outputText value="Source Address:"/>
-                        <h:outputText value="#{flightSearchController.selected.srcStreet}"/>-->
-
-                        <h:outputText value="Source Longitude:"/>
-                        <h:outputText value="#{flightSearchController.selected.source.longitude}"/>
-
-                        <h:outputText value="Source Latitude:"/>
-                        <h:outputText value="#{flightSearchController.selected.source.latitude}"/>
-
                         <h:outputText value="Destination Name:"/>
                         <h:outputText value="#{flightSearchController.selected.destination.name}"/>
 
@@ -52,6 +43,9 @@ Copyright © 2016 Nick Thompson. All rights reserved.
 
                         <h:outputText value="Price:"/>
                         <h:outputText value="#{flightSearchController.selected.price}"/>
+                        
+                        <h:outputText value="Estimated Travel Time from Home to Airport:"/>
+                        <h:outputText value="#{directionController.getTravelTime(userController.selected, flightSearchController.selected)}"/>
 
                     </p:panelGrid>
                 </h:panelGroup>
@@ -61,7 +55,6 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                     <div align="center">
                         <!-- CLOSE button -->
                         <p:commandButton value="#{bundle.Close}" onclick="PF('TicketViewDialog').hide()" 
-
                                          icon="fas fa-window-close"/>
                     </div>
                 </h:panelGroup>
