@@ -12,10 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.mail.Session;
 
 /**
  *
@@ -41,7 +39,6 @@ public class AlertController {
     }
 
     public void setMessageDate(Date messageDate) {
-        System.out.println("date type");
         this.messageDate = messageDate;
     }
 
@@ -54,7 +51,6 @@ public class AlertController {
             this.pretime = 0L;
         }
         this.pretime = pretime * 60000;
-        System.out.print("Long setting pretime: " + pretime);
     }
     
     public String getRecipientNumber() {
@@ -90,22 +86,25 @@ public class AlertController {
     }
     
     public void createAlert() {
+        // Gets expected departure date from session's FlightSearchController
         messageDate = flightSearchController.getSelected().getExpectedDepartureDate();
+        
+        // Gets phone number and carrier from current logged in user
         User user = (User) Methods.sessionMap().get("user");
         recipientNumber = user.getPhoneNumber();
         recipientCarrier = user.getMobileCarrier();
         messageContent = "Time to catch your flight!";
+        
+        // Creates a new alert and schedules it
         alert = new AlertTask(recipientNumber, recipientCarrier, messageContent);
         alertTimer.scheduleAlert(alert, messageDate, pretime);
     }
     
     public void setPretime(String time) {
         pretime = Long.parseLong(time) * 60000;
-        System.out.print("String setting pretime: " + pretime);
     }
     
     public void setMessageDate(String date) throws ParseException {
-        System.out.println("string type");
         SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         messageDate = parser.parse(date);
     }

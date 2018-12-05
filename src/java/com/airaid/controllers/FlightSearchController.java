@@ -121,18 +121,25 @@ public class FlightSearchController implements Serializable {
             for (int i = 0; i < flightArray.length(); i++) {
                 try {
                     JSONObject flightData = flightArray.getJSONObject(i);
-
-                    // Creates Joda DateTime objects to find difference
+                    
+                    /**
+                     * The API which we selected to use only has flight data for the next day,
+                     * to counteract this flaw, we update the flight departure and arrival times 
+                     * to match the date specified in the search
+                     */
+                    
+                    // Creates Joda DateTime objects to find difference between searched date and actual departure date
                     DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     DateTime edcJ = parser.parseDateTime(flightData.getJSONObject("departure").getString("scheduledTime"));
                     DateTime eadJ = parser.parseDateTime(flightData.getJSONObject("arrival").getString("scheduledTime"));
                     DateTime fligtDateJ = new DateTime(flightDate);
                     int dayDiff = Days.daysBetween(edcJ, fligtDateJ).getDays() + 1;
 
-                    // Mocking Data
+                    // Changing the date from the actual data to represent the new date
                     Date expectedDepartureDate = edcJ.plusDays(dayDiff).toDate();
                     Date expectedArrivalDate = eadJ.plusDays(dayDiff).toDate();
                     
+                    // Randomly creating a price since it is not specified in our selected API
                     int price;
                     Random ran = new Random();
                     price = ran.nextInt(243) + 226; //prices aren't given by API, so we make up a price between 226-468
@@ -150,9 +157,8 @@ public class FlightSearchController implements Serializable {
                         // Do Nothing
                     }
                 }
-            
 
-            // Creating mock flight for testing purposes
+            // Creating mock flight for testing purposes (Always 5 minutes ahead of when the search is performed)
             createMockTestingFlight();
 
         } catch (Exception ex) {
@@ -164,12 +170,12 @@ public class FlightSearchController implements Serializable {
 
     private void createMockTestingFlight() {
         DateTime curDateJ = new DateTime(new Date());
-        Date curDep = curDateJ.plusMinutes(1).toDate();
+        Date curDep = curDateJ.plusMinutes(5).toDate();
         Date curArr = curDateJ.plusHours(2).toDate();
         
         int price;
         Random ran = new Random();
-        price = ran.nextInt(243) + 226; //prices aren't given by API, so we make up a price between 226-468
+        price = ran.nextInt(243) + 226;
                     
         searchedItems.add(new Flight("Test1234", source, destination, "AirAid - Testing", curDep, curArr, (double) price));
     }
@@ -270,6 +276,7 @@ public class FlightSearchController implements Serializable {
         }
     }
 
+    // Returns a list of airports containing the search text
     public List<Airport> completeText(String query) {
         List<Airport> results = new ArrayList<>();
         for (Airport airport : airports) {

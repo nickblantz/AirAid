@@ -53,8 +53,11 @@ Copyright © 2016 Nick Thompson. All rights reserved.
                 <h:panelGroup>
                     <div align="center">
                         <br />
-                        <h:commandLink id="directionsButton" target="_blank" actionListener="#{flightSearchController.goToDirections()}" value="Directions to Airport" />
+                        <!-- Button which opens directions to the departure airport in new tab -->
+                        <h:commandLink id="directionsButton" target="_blank" 
+                                       actionListener="#{flightSearchController.goToDirections()}" value="Directions to Airport" />
                         <br />
+                        <!-- Input and button for creating new alert -->
                         <h:outputLabel value="Lead Time (Minutes):" for="leadtime" />&nbsp;
                         <p:inputText id="leadtime" value="#{alertController.pretime}" class="inputTextField" />&nbsp;
                         <p:commandButton value="Schedule Alert" action="#{alertController.createAlert()}" />

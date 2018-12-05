@@ -72,6 +72,7 @@ Copyright © 2018 Nick Thompson. All rights reserved.
                             <br /><br />
 
                             <f:facet name="footer">
+                                <!-- Purchases a ticket for the flight and adds it to the user's tickets -->
                                 <p:commandButton id="purchaseButton" icon="fa fa-shopping-cart" value="Purchase Ticket" 
                                                  update=":TicketPurchaseForm" oncomplete="PF('TicketPurchaseDialog').show()" 
                                                  disabled="#{empty flightSearchController.selected}"/>

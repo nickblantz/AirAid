@@ -25,14 +25,8 @@ public class AirportConverter implements Converter, Serializable {
     @Inject
     private FlightSearchController fsc;
     
-    public FlightSearchController getFsc() {
-        return fsc;
-    }
     
-    public void setFsc(FlightSearchController fsc) {
-        this.fsc = fsc;
-    }
-    
+    // Converts specified string to Airport
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if (value != null && value.trim().length() > 0) {
@@ -45,6 +39,7 @@ public class AirportConverter implements Converter, Serializable {
         return null;
     }
 
+    // Converts Airport to search string
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object object) {
         if(object != null) {

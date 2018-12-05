@@ -30,6 +30,7 @@ public class AlertTask extends TimerTask {
         this.messageContent = messageContent;
     }
 
+    // Copied from code provided by Osman Balci in prior tutorials
     @Override
     public void run() {
         Properties smtpProperties = System.getProperties();

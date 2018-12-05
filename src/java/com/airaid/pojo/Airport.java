@@ -7,7 +7,7 @@ package com.airaid.pojo;
 import java.io.Serializable;
 
 /**
- *
+ * Represents an airport
  * @author Admin
  */
 public class Airport implements Serializable {

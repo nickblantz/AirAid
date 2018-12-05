@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- *
+ * Represents a flight between a source and a destination airport
  * @author Admin
  */
 public class Flight implements Serializable {
