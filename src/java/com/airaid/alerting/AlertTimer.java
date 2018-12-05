@@ -18,6 +18,6 @@ public class AlertTimer extends Timer{
     
     public void scheduleAlert(AlertTask task, Date alertTime, Long alertAdvance) {
         super.schedule((TimerTask) task, new Date(alertTime.getTime() + alertAdvance));
-        System.out.println("scheduling alert for: " + new Date(alertTime.getTime() + alertAdvance).toString());
+        System.out.println("scheduling alert for: " + new Date(alertTime.getTime() - alertAdvance).toString());
     }
 }
